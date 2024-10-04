@@ -11,14 +11,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/login', name: 'app_login')]
+    #[Route(path: '/login', name: 'app_login', methods:['POST'])]
     public function login(AuthenticationUtils $authenticationUtils, SectionRepository $sectionRepository): Response
     {
-        // si on est déjà connecté et qu'on souhaite revenir sur login
-        if($this->getUser()) {
-            // on retourne sur l'accueil
-            return $this->redirectToRoute('app_home');
-        }
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 

@@ -23,7 +23,6 @@
         <link href="{{ asset('lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet">
         <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
 
-
         <!-- Customized Bootstrap Stylesheet -->
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
@@ -31,77 +30,30 @@
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     </head>
 
-    <body>
-
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
-
-        <!-- Modal de connection Start -->
-        <div class="modal fade" id="modalConnect" tabindex="-1" aria-labelledby="modalConnectLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalConnectLabel">Se connecter</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                        <form method="post" action="{{ path('app_login') }}">
-                            <div class="modal-body">
-                                {% if error|length > 0 %}
-                                    <div class="alert alert-danger">Nom de compte ou mot de passe incorrect</div>
-                                {% endif %}
-                                {% if app.user %}
-                                    <div class="mb-3">
-                                        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                                    </div>
-                                {% endif %}
-                                <label for="username">Nom de compte</label>
-                                <input type="text" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="username" required autofocus>
-                                <label for="password">Mot de passe</label>
-                                <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-
-                                <input type="hidden" name="_csrf_token"
-                                    value="{{ csrf_token('authenticate') }}"
-                                >
-
-                                {#
-                                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                                    See https://symfony.com/doc/current/security/remember_me.html
-
-                                    <div class="checkbox mb-3">
-                                        <input type="checkbox" name="_remember_me" id="_remember_me">
-                                        <label for="_remember_me">Remember me</label>
-                                    </div>
-                                #}
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                                <button type="submit" class="btn btn-primary">Me connecter</button>
-                            </div>
-                        </form>
-                </div>
-            </div>
-        </div>
-        <!-- Modal de connection End -->
-
+    {% block body %}
+        {% include "includes/spinner.html.twig" %}
+        {% if not app.user %}
+            {% include "includes/modal.connect.html.twig" %}
+        {% endif %}
         <!-- Topbar Start -->
         <div class="container-fluid topbar bg-light px-5 d-none d-lg-block">
             <div class="row gx-0 align-items-center">
                 <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
                     <div class="d-flex flex-wrap">
-                        <a href="#" class="text-muted small me-4"><i class="fas fa-map-marker-alt text-primary me-2"></i>Find A Location</a>
-                        <a href="tel:+01234567890" class="text-muted small me-4"><i class="fas fa-phone-alt text-primary me-2"></i>+01234567890</a>
-                        <a href="mailto:example@gmail.com" class="text-muted small me-0"><i class="fas fa-envelope text-primary me-2"></i>Example@gmail.com</a>
+                        <a href="#" class="text-muted small me-4"><i class="fas fa-map-marker-alt text-primary me-2"></i>Av. du Parc 89, 1060 Bruxelles</a>
+                        <a href="tel:+01234567890" class="text-muted small me-4"><i class="fas fa-phone-alt text-primary me-2"></i>02 539 03 60</a>
+                        <a href="mailto:michael.pitz@cf2m.be" class="text-muted small me-0"><i class="fas fa-envelope text-primary me-2"></i>michael.pitz@cf2m.be</a>
                     </div>
                 </div>
                 <div class="col-lg-4 text-center text-lg-end">
                     <div class="d-inline-flex align-items-center" style="height: 45px;">
-                        <a href="#"><small class="me-3 text-dark"><i class="fa fa-user text-primary me-2"></i>Register</small></a>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalConnect"><small class="me-3 text-dark"><i class="fa fa-sign-in-alt text-primary me-2"></i>Login</small></a>
+                        {% if not app.user %}
+                            <a href="#"><small class="me-3 text-dark"><i class="fa fa-user text-primary me-2"></i>Register</small></a>
+                        {% endif %}
+                        {% if not app.user %}
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#modalConnect"><small class="me-3 text-dark"><i class="fa fa-sign-in-alt text-primary me-2"></i>Login</small></a>
+                        {% endif %}
+                        {% if app.user %}
                         <div class="dropdown">
                             <a href="#" class="dropdown-toggle text-dark" data-bs-toggle="dropdown"><small><i class="fa fa-home text-primary me-2"></i> My Dashboard</small></a>
                             <div class="dropdown-menu rounded">
@@ -109,9 +61,10 @@
                                 <a href="#" class="dropdown-item"><i class="fas fa-comment-alt me-2"></i> Inbox</a>
                                 <a href="#" class="dropdown-item"><i class="fas fa-bell me-2"></i> Notifications</a>
                                 <a href="#" class="dropdown-item"><i class="fas fa-cog me-2"></i> Account Settings</a>
-                                <a href="#" class="dropdown-item"><i class="fas fa-power-off me-2"></i> Log Out</a>
+                                <a href="{{ path('app_logout') }}" class="dropdown-item"><i class="fas fa-power-off me-2"></i> Log Out</a>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -122,7 +75,7 @@
         <div class="container-fluid position-relative p-0">
             <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
                 <a href="" class="navbar-brand p-0">
-                    <h1 class="text-primary"><i class="fas fa-search-dollar me-3"></i>Stocker</h1>
+                    <h1 class="text-primary"><i class="fas fa-search-dollar me-3"></i>OnlyPassionCode</h1>
                     <!--<img src="asset('img/logo.png')" alt="Logo">-->
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -163,7 +116,7 @@
                                 <div class="col-lg-0 col-xl-5"></div>
                                 <div class="col-xl-7 animated fadeInLeft">
                                     <div class="text-sm-center text-md-end">
-                                        <h4 class="text-primary text-uppercase fw-bold mb-4">Welcome To Stocker</h4>
+                                        <h4 class="text-primary text-uppercase fw-bold mb-4">Welcome To OnlyPassionCode</h4>
                                         <h1 class="display-4 text-uppercase text-white mb-4">Invest your money with higher return</h1>
                                         <p class="mb-5 fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy... 
                                         </p>
@@ -193,7 +146,7 @@
                             <div class="row g-5">
                                 <div class="col-12 animated fadeInUp">
                                     <div class="text-center">
-                                        <h4 class="text-primary text-uppercase fw-bold mb-4">Welcome To Stocker</h4>
+                                        <h4 class="text-primary text-uppercase fw-bold mb-4">Welcome To OnlyPassionCode</h4>
                                         <h1 class="display-4 text-uppercase text-white mb-4">Invest your money with higher return</h1>
                                         <p class="mb-5 fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy... 
                                         </p>
@@ -908,133 +861,134 @@
             </div>
         </div>
         <!-- Testimonial End -->
-
-        <!-- Footer Start -->
-        <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
-            <div class="container py-5 border-start-0 border-end-0" style="border: 1px solid; border-color: rgb(255, 255, 255, 0.08);">
-                <div class="row g-5">
-                    <div class="col-md-6 col-lg-6 col-xl-4">
-                        <div class="footer-item">
-                            <a href="index.html" class="p-0">
-                                <h4 class="text-white"><i class="fas fa-search-dollar me-3"></i>Stocker</h4>
-                                <!--<img src="asset('img/logo.png')" alt="Logo">-->
-                            </a>
-                            <p class="mb-4">Dolor amet sit justo amet elitr clita ipsum elitr est.Lorem ipsum dolor sit amet, consectetur adipiscing...</p>
-                            <div class="d-flex">
-                                <a href="#" class="bg-primary d-flex rounded align-items-center py-2 px-3 me-2">
-                                    <i class="fas fa-apple-alt text-white"></i>
-                                    <div class="ms-3">
-                                        <small class="text-white">Download on the</small>
-                                        <h6 class="text-white">App Store</h6>
-                                    </div>
+        {% block footer %}
+            <!-- Footer Start -->
+            <footer class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
+                <div class="container py-5 border-start-0 border-end-0" style="border: 1px solid; border-color: rgb(255, 255, 255, 0.08);">
+                    <div class="row g-5">
+                        <div class="col-md-6 col-lg-6 col-xl-4">
+                            <div class="footer-item">
+                                <a href="index.html" class="p-0">
+                                    <h4 class="text-white"><i class="fas fa-search-dollar me-3"></i>OnlyPassionCode</h4>
+                                    <!--<img src="asset('img/logo.png')" alt="Logo">-->
                                 </a>
-                                <a href="#" class="bg-dark d-flex rounded align-items-center py-2 px-3 ms-2">
-                                    <i class="fas fa-play text-primary"></i>
-                                    <div class="ms-3">
-                                        <small class="text-white">Get it on</small>
-                                        <h6 class="text-white">Google Play</h6>
-                                    </div>
-                                </a>
+                                <p class="mb-4">Dolor amet sit justo amet elitr clita ipsum elitr est.Lorem ipsum dolor sit amet, consectetur adipiscing...</p>
+                                <div class="d-flex">
+                                    <a href="#" class="bg-primary d-flex rounded align-items-center py-2 px-3 me-2">
+                                        <i class="fas fa-apple-alt text-white"></i>
+                                        <div class="ms-3">
+                                            <small class="text-white">Download on the</small>
+                                            <h6 class="text-white">App Store</h6>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="bg-dark d-flex rounded align-items-center py-2 px-3 ms-2">
+                                        <i class="fas fa-play text-primary"></i>
+                                        <div class="ms-3">
+                                            <small class="text-white">Get it on</small>
+                                            <h6 class="text-white">Google Play</h6>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-xl-2">
-                        <div class="footer-item">
-                            <h4 class="text-white mb-4">Quick Links</h4>
-                            <a href="#"><i class="fas fa-angle-right me-2"></i> About Us</a>
-                            <a href="#"><i class="fas fa-angle-right me-2"></i> Feature</a>
-                            <a href="#"><i class="fas fa-angle-right me-2"></i> Attractions</a>
-                            <a href="#"><i class="fas fa-angle-right me-2"></i> Tickets</a>
-                            <a href="#"><i class="fas fa-angle-right me-2"></i> Blog</a>
-                            <a href="#"><i class="fas fa-angle-right me-2"></i> Contact us</a>
+                        <div class="col-md-6 col-lg-6 col-xl-2">
+                            <div class="footer-item">
+                                <h4 class="text-white mb-4">Quick Links</h4>
+                                <a href="#"><i class="fas fa-angle-right me-2"></i> About Us</a>
+                                <a href="#"><i class="fas fa-angle-right me-2"></i> Feature</a>
+                                <a href="#"><i class="fas fa-angle-right me-2"></i> Attractions</a>
+                                <a href="#"><i class="fas fa-angle-right me-2"></i> Tickets</a>
+                                <a href="#"><i class="fas fa-angle-right me-2"></i> Blog</a>
+                                <a href="#"><i class="fas fa-angle-right me-2"></i> Contact us</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-xl-3">
-                        <div class="footer-item">
-                            <h4 class="text-white mb-4">Support</h4>
-                            <a href="#"><i class="fas fa-angle-right me-2"></i> Privacy Policy</a>
-                            <a href="#"><i class="fas fa-angle-right me-2"></i> Terms & Conditions</a>
-                            <a href="#"><i class="fas fa-angle-right me-2"></i> Disclaimer</a>
-                            <a href="#"><i class="fas fa-angle-right me-2"></i> Support</a>
-                            <a href="#"><i class="fas fa-angle-right me-2"></i> FAQ</a>
-                            <a href="#"><i class="fas fa-angle-right me-2"></i> Help</a>
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="footer-item">
+                                <h4 class="text-white mb-4">Support</h4>
+                                <a href="#"><i class="fas fa-angle-right me-2"></i> Privacy Policy</a>
+                                <a href="#"><i class="fas fa-angle-right me-2"></i> Terms & Conditions</a>
+                                <a href="#"><i class="fas fa-angle-right me-2"></i> Disclaimer</a>
+                                <a href="#"><i class="fas fa-angle-right me-2"></i> Support</a>
+                                <a href="#"><i class="fas fa-angle-right me-2"></i> FAQ</a>
+                                <a href="#"><i class="fas fa-angle-right me-2"></i> Help</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-xl-3">
-                        <div class="footer-item">
-                            <h4 class="text-white mb-4">Contact Info</h4>
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-map-marker-alt text-primary me-3"></i>
-                                <p class="text-white mb-0">123 Street New York.USA</p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-envelope text-primary me-3"></i>
-                                <p class="text-white mb-0">info@example.com</p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <i class="fa fa-phone-alt text-primary me-3"></i>
-                                <p class="text-white mb-0">(+012) 3456 7890</p>
-                            </div>
-                            <div class="d-flex align-items-center mb-4">
-                                <i class="fab fa-firefox-browser text-primary me-3"></i>
-                                <p class="text-white mb-0">Yoursite@ex.com</p>
-                            </div>
-                            <div class="d-flex">
-                                <a class="btn btn-primary btn-sm-square rounded-circle me-3" href="#"><i class="fab fa-facebook-f text-white"></i></a>
-                                <a class="btn btn-primary btn-sm-square rounded-circle me-3" href="#"><i class="fab fa-twitter text-white"></i></a>
-                                <a class="btn btn-primary btn-sm-square rounded-circle me-3" href="#"><i class="fab fa-instagram text-white"></i></a>
-                                <a class="btn btn-primary btn-sm-square rounded-circle me-0" href="#"><i class="fab fa-linkedin-in text-white"></i></a>
+                        <div class="col-md-6 col-lg-6 col-xl-3">
+                            <div class="footer-item">
+                                <h4 class="text-white mb-4">Contact Info</h4>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-map-marker-alt text-primary me-3"></i>
+                                    <p class="text-white mb-0">123 Street New York.USA</p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-envelope text-primary me-3"></i>
+                                    <p class="text-white mb-0">info@example.com</p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fa fa-phone-alt text-primary me-3"></i>
+                                    <p class="text-white mb-0">(+012) 3456 7890</p>
+                                </div>
+                                <div class="d-flex align-items-center mb-4">
+                                    <i class="fab fa-firefox-browser text-primary me-3"></i>
+                                    <p class="text-white mb-0">Yoursite@ex.com</p>
+                                </div>
+                                <div class="d-flex">
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href="#"><i class="fab fa-facebook-f text-white"></i></a>
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href="#"><i class="fab fa-twitter text-white"></i></a>
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-3" href="#"><i class="fab fa-instagram text-white"></i></a>
+                                    <a class="btn btn-primary btn-sm-square rounded-circle me-0" href="#"><i class="fab fa-linkedin-in text-white"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- Footer End -->
+            </footer>
+            <!-- Footer End -->
+        {% endblock %}
         
-        <!-- Copyright Start -->
-        <div class="container-fluid copyright py-4">
-            <div class="container">
-                <div class="row g-4 align-items-center">
-                    <div class="col-md-6 text-center text-md-start mb-md-0">
-                        <span class="text-body"><a href="#" class="border-bottom text-white"><i class="fas fa-copyright text-light me-2"></i>Your Site Name</a>, All right reserved.</span>
-                    </div>
-                    <div class="col-md-6 text-center text-md-end text-body">
-                        <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
-                        <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
-                        <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
-                        Designed By <a class="border-bottom text-white" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a class="border-bottom text-white" href="https://themewagon.com">ThemeWagon</a>
+        {% block copyright %}
+            <!-- Copyright Start -->
+            <div class="container-fluid copyright py-4">
+                <div class="container">
+                    <div class="row g-4 align-items-center">
+                        <div class="col-md-6 text-center text-md-start mb-md-0">
+                            <span class="text-body"><a href="#" class="border-bottom text-white"><i class="fas fa-copyright text-light me-2"></i>Your Site Name</a>, All right reserved.</span>
+                        </div>
+                        <div class="col-md-6 text-center text-md-end text-body">
+                            <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                            <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                            <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+                            Designed By <a class="border-bottom text-white" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a class="border-bottom text-white" href="https://themewagon.com">ThemeWagon</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Copyright End -->
+            <!-- Copyright End -->
+        {% endblock %}
 
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-primary btn-lg-square rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
-
         
-        <!-- JavaScript Libraries -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/wow/wow.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/counterup/counterup.min.js"></script>
-        <script src="lib/lightbox/js/lightbox.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-        
-
-        <!-- Template Javascript -->
-        <script src="{{ asset('js/main.js') }}"></script>
-
-        {% if error|length > 0 %}
-            <script>
-                const modalConnect = new bootstrap.Modal(document.getElementById('modalConnect'))
-                modalConnect.show();
-            </script>
-        {% endif %}
-    </body>
-
+        {% block script %}
+            <!-- JavaScript Libraries -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="lib/wow/wow.min.js"></script>
+            <script src="lib/easing/easing.min.js"></script>
+            <script src="lib/waypoints/waypoints.min.js"></script>
+            <script src="lib/counterup/counterup.min.js"></script>
+            <script src="lib/lightbox/js/lightbox.min.js"></script>
+            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+            <!-- Template Javascript -->
+            <script src="{{ asset('js/main.js') }}"></script>
+            <!-- Custom Javascript -->
+            {% if error|length > 0 %}
+                <script>
+                    const modalConnect = new bootstrap.Modal(document.getElementById('modalConnect'))
+                    modalConnect.show();
+                </script>
+            {% endif %}
+        {% endblock %}
+    {% endblock %}
 </html>
