@@ -9,21 +9,31 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="index.html" class="nav-item nav-link active">Accueil</a>
+                <a href="{{ path('app_home') }}" class="nav-item nav-link active">Accueil</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link" data-bs-toggle="dropdown">
                         <span class="dropdown-toggle">Sections</span>
                     </a>
                     <div class="dropdown-menu m-0">
                         {% for section in sections %}
-                            <a href="feature.html" class="dropdown-item">{{ section }}</a>
+                            <a href="{{ path('section', {id:section.id}) }}" class="dropdown-item">{{ section }}</a>
                         {% endfor %}
                     </div>
                 </div>
                 <a href="#" class="nav-item nav-link">Nous contacter</a>
             </div>
 
-            <a href="#" class="btn btn-primary rounded-pill py-2 px-4 my-3 my-lg-0 flex-shrink-0">Administration</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="nav-item dropdown">
+                    <a href="#" data-bs-toggle="dropdown">
+                        <span class="dropdown-toggle text-primary fw-bold">Administration</span>
+                    </a>
+                    <div class="dropdown-menu m-0">
+                        <a href="{{ path('app_admin_section_index') }}" class="dropdown-item">CRUD Sections</a>
+                        <a href="{{ path('app_admin_post_index') }}" class="dropdown-item">CRUD Articles</a>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </nav>
 </div>
