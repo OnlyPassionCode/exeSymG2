@@ -17,20 +17,18 @@ class SecurityController extends AbstractController
         // si on est déjà connecté et qu'on souhaite revenir sur login
         if($this->getUser()) {
             // on retourne sur l'accueil
-            return $this->redirectToRoute('coucou');
+            return $this->redirectToRoute('app_home');
         }
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error,
-            'title' => "Connexion",
-            'sections' => $sectionRepository->findAll(),
-        ]);
+        if($error)
+            $this->addFlash(
+                'error',
+                $error
+            );
+            
+        return $this->redirectToRoute('app_home');
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
