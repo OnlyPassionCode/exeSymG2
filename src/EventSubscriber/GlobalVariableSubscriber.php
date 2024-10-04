@@ -26,12 +26,28 @@ class GlobalVariableSubscriber implements EventSubscriberInterface
         return true;
     }
 
+    private function adminSectionController(array $controller, Request $request): bool{
+        if(get_class($controller[0]) !== "App\\Controller\\AdminSectionController") return false;
+        $sections = $this->sectionRepository->findAll();
+        $this->twig->addGlobal('sections', $sections);
+        return true;
+    }
+
+    private function adminPostController(array $controller, Request $request): bool{
+        if(get_class($controller[0]) !== "App\\Controller\\AdminPostController") return false;
+        $sections = $this->sectionRepository->findAll();
+        $this->twig->addGlobal('sections', $sections);
+        return true;
+    }
+
     public function onKernelController(ControllerEvent $event)
     {
         $controller = $event->getController();
         if(is_array($controller)){
             $request = $event->getRequest();
             if($this->homeController($controller, $request)) return;
+            if($this->adminSectionController($controller, $request)) return;
+            if($this->adminPostController($controller, $request)) return;
         }
     }
 

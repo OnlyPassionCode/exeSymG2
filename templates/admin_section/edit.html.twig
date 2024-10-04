@@ -1,13 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/admin.html.twig' %}
 
 {% block title %}Edit Section{% endblock %}
 
 {% block body %}
     <h1>Edit Section</h1>
 
-    {{ include('admin_section/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('admin_section/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('app_admin_section_index') }}">back to list</a>
+    <a href="{{ path('app_admin_section_index') }}">Retouner à la liste</a>
 
     {{ include('admin_section/_delete_form.html.twig') }}
 {% endblock %}
