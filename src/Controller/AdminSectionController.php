@@ -19,6 +19,7 @@ final class AdminSectionController extends AbstractController
     {
         return $this->render('admin_section/index.html.twig', [
             'sections' => $sectionRepository->findAll(),
+            'title' => "CRUD Sections",
         ]);
     }
 
@@ -39,6 +40,7 @@ final class AdminSectionController extends AbstractController
         return $this->render('admin_section/new.html.twig', [
             'section' => $section,
             'form' => $form,
+            'title' => "Nouvelle Section",
         ]);
     }
 
@@ -47,6 +49,7 @@ final class AdminSectionController extends AbstractController
     {
         return $this->render('admin_section/show.html.twig', [
             'section' => $section,
+            'title' => 'Section '.$section->getSectionTitle(),
         ]);
     }
 
@@ -65,6 +68,7 @@ final class AdminSectionController extends AbstractController
         return $this->render('admin_section/edit.html.twig', [
             'section' => $section,
             'form' => $form,
+            'title' => "Editer Section",
         ]);
     }
 

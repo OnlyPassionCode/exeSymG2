@@ -34,6 +34,7 @@ class PostType extends AbstractType
                 'class' => Tag::class,
                 'choice_label' => 'id',
                 'multiple' => true,
+                'required' => false
             ])
             ->add('user', EntityType::class, [
                 'class' => User::class,

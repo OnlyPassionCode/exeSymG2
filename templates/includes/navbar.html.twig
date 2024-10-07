@@ -9,9 +9,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a href="{{ path('app_home') }}" class="nav-item nav-link active">Accueil</a>
+                <a href="{{ path('app_home') }}" class="nav-item nav-link {{ active is defined and active == "Accueil" ? 'active' : '' }}">Accueil</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link" data-bs-toggle="dropdown">
+                    <a href="#" class="nav-link {{ active is defined and active == "Section" ? 'active' : '' }}" data-bs-toggle="dropdown">
                         <span class="dropdown-toggle">Sections</span>
                     </a>
                     <div class="dropdown-menu m-0">
@@ -20,7 +20,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                <a href="#" class="nav-item nav-link">Nous contacter</a>
+                <a href="#" class="nav-item nav-link {{ active is defined and active == "Contact" ? 'active' : '' }}">Nous contacter</a>
             </div>
 
             {% if is_granted('ROLE_ADMIN') %}
@@ -30,7 +30,7 @@
                     </a>
                     <div class="dropdown-menu m-0">
                         <a href="{{ path('app_admin_section_index') }}" class="dropdown-item">CRUD Sections</a>
-                        <a href="{{ path('app_admin_post_index') }}" class="dropdown-item">CRUD Articles</a>
+                        <a href="{{ path('app_admin_post_index') }}" class="dropdown-item">CRUD Posts</a>
                     </div>
                 </div>
             {% endif %}

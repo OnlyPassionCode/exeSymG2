@@ -1,7 +1,15 @@
 {% extends 'layouts/admin.html.twig' %}
 
 {% block title %}New Post{% endblock %}
-
+{% block hero %}
+    {% embed "includes/hero.html.twig" %}
+        {% block bread %}
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_post_index') }}">Admin</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_post_index') }}">CRUD</a></li>
+                <li class="breadcrumb-item active text-primary">New</li>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
 {% block body %}
     <h1>Create new Post</h1>
 

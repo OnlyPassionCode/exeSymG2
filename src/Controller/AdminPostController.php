@@ -19,6 +19,7 @@ final class AdminPostController extends AbstractController
     {
         return $this->render('admin_post/index.html.twig', [
             'posts' => $postRepository->findAll(),
+            'title' => "CRUD Posts",
         ]);
     }
 
@@ -39,6 +40,7 @@ final class AdminPostController extends AbstractController
         return $this->render('admin_post/new.html.twig', [
             'post' => $post,
             'form' => $form,
+            'title' => "Nouveau Post",
         ]);
     }
 
@@ -47,6 +49,7 @@ final class AdminPostController extends AbstractController
     {
         return $this->render('admin_post/show.html.twig', [
             'post' => $post,
+            'title' => 'Post '.$post->getPostTitle(),
         ]);
     }
 
@@ -65,6 +68,7 @@ final class AdminPostController extends AbstractController
         return $this->render('admin_post/edit.html.twig', [
             'post' => $post,
             'form' => $form,
+            'title' => "Editer Post",
         ]);
     }
 

@@ -2,6 +2,15 @@
 
 {% block title %}Section index{% endblock %}
 
+{% block hero %}
+    {% embed "includes/hero.html.twig" %}
+        {% block bread %}
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_section_index') }}">Admin</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_section_index') }}">CRUD</a></li>
+                <li class="breadcrumb-item active text-primary">Sections</li>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
 {% block body %}
     <h1>Section index</h1>
 
