@@ -27,7 +27,7 @@
         {% for section in sections %}
             <tr>
                 <td>{{ section.id }}</td>
-                <td>{{ section.sectionTitle }}</td>
+                <td>{{ section }}</td>
                 <td>{{ section.sectionDescription }}</td>
                 <td>
                     <a href="{{ path('app_admin_section_show', {'id': section.id}) }}">show</a>

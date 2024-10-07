@@ -1,11 +1,11 @@
 {% extends "layouts/public.html.twig" %}
-{% block title %}Post {{ post.postTitle }}{% endblock %}
+{% block title %}Post {{ post }}{% endblock %}
 {% block hero %}
     {% embed "includes/hero.html.twig" %}
         {% block bread %}
             <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
             <li class="breadcrumb-item"><a href="#">Post</a></li>
-            <li class="breadcrumb-item active text-primary">{{ post.postTitle }}</li>
+            <li class="breadcrumb-item active text-primary">{{ post }}</li>
         {% endblock %}
     {% endembed %}
 {% endblock %}
@@ -15,7 +15,7 @@
         <div class="container py-5">
             <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
                 <h4 class="text-primary">Post</h4>
-                <h1 class="display-5 mb-4">{{ post.postTitle }}</h1>
+                <h1 class="display-5 mb-4">{{ post }}</h1>
                 <p class="mb-0">{{ post.postDescription }}</p>
             </div>
             

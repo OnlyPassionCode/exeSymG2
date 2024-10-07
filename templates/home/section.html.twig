@@ -1,11 +1,11 @@
 {% extends "layouts/public.html.twig" %}
-{% block title %}Section {{ section.sectionTitle }}{% endblock %}
+{% block title %}Section {{ section }}{% endblock %}
 {% block hero %}
     {% embed "includes/hero.html.twig" %}
         {% block bread %}
             <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
             <li class="breadcrumb-item"><a href="#">Section</a></li>
-            <li class="breadcrumb-item active text-primary">{{ section.sectionTitle }}</li>
+            <li class="breadcrumb-item active text-primary">{{ section }}</li>
         {% endblock %}
     {% endembed %}
 {% endblock %}
@@ -15,7 +15,7 @@
         <div class="container py-5">
             <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
                 <h4 class="text-primary">Section</h4>
-                <h1 class="display-5 mb-4">{{ section.sectionTitle }}</h1>
+                <h1 class="display-5 mb-4">{{ section }}</h1>
                 <p class="mb-0">{{ section.sectionDescription }}</p>
             </div>
             <div class="owl-carousel blog-carousel wow fadeInUp" data-wow-delay="0.2s">
@@ -27,7 +27,7 @@
                                 <a href="{{ path('post', {id:post.id}) }}" class="btn">Voir le post</a>
                             </div>
                         </div>
-                        <a href="{{ path('post', {id:post.id}) }}" class="h4 d-inline-block mb-3">{{ post.postTitle }}</a>
+                        <a href="{{ path('post', {id:post.id}) }}" class="h4 d-inline-block mb-3">{{ post }}</a>
                         <p class="mb-4">{{ post.postDescription|slice(0, 250) ~ '...' }}</p>
                         <div class="d-flex align-items-center">
                             <img src="{{ asset('img/pomme.jpg') }}" class="img-fluid rounded-circle" style="width: 60px; height: 60px;" alt="">

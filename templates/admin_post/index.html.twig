@@ -29,7 +29,7 @@
         {% for post in posts %}
             <tr>
                 <td>{{ post.id }}</td>
-                <td>{{ post.postTitle }}</td>
+                <td>{{ post }}</td>
                 <td>{{ post.postDescription }}</td>
                 <td>{{ post.postDateCreated ? post.postDateCreated|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ post.postDatePublished ? post.postDatePublished|date('Y-m-d H:i:s') : '' }}</td>
