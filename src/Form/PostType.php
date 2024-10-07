@@ -18,12 +18,6 @@ class PostType extends AbstractType
         $builder
             ->add('postTitle')
             ->add('postDescription')
-            ->add('postDateCreated', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('postDatePublished', null, [
-                'widget' => 'single_text',
-            ])
             ->add('postPublished')
             ->add('sections', EntityType::class, [
                 'class' => Section::class,
