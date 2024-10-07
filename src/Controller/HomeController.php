@@ -26,7 +26,7 @@ class HomeController extends AbstractController
     }
     
     #[Route('/section/{id}', name: 'section')]
-    public function section(Section $section, PostRepository $postRepository, AuthenticationUtils $authenticationUtils): Response
+    public function section(Section $section, AuthenticationUtils $authenticationUtils): Response
     {
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -35,7 +35,7 @@ class HomeController extends AbstractController
             'section' => $section,
             'last_username' => $lastUsername,
             'active' => 'Section',
-            'posts' => $postRepository->findAll()
+            'posts' => $section->getPosts(),
         ]);
     }
 

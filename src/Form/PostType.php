@@ -27,18 +27,19 @@ class PostType extends AbstractType
             ->add('postPublished')
             ->add('sections', EntityType::class, [
                 'class' => Section::class,
-                'choice_label' => 'id',
+                'choice_label' => 'sectionTitle',
                 'multiple' => true,
+                'required' => false
             ])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
-                'choice_label' => 'id',
+                'choice_label' => 'tagName',
                 'multiple' => true,
                 'required' => false
             ])
             ->add('user', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'id',
+                'choice_label' => 'username',
             ])
         ;
     }
