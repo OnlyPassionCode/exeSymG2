@@ -11,15 +11,52 @@
 {% endblock %}
 {% block body %}.
     <!-- Blog Start -->
-    <div class="container-fluid blog py-5">
+    <div class="container-fluid blog pb-5">
         <div class="container py-5">
-            <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+            <div class="mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
                 <h4 class="text-primary">Post</h4>
                 <h1 class="display-5 mb-4">{{ post }}</h1>
                 <p class="mb-0">{{ post.postDescription }}</p>
             </div>
-            
+            <!-- Comments Start -->
+            <div class="mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                {% if comments|length == 0 %}
+                    <h2 class="text-primary">Devenez le premier a commenter :</h2>
+                {% else %}
+                    <h2 class="text-primary">Les commentaires :</h2>
+                {% endif %}
+            </div>
+            {% for comment in comments %}
+                <div class="mx-auto {{ loop.first ? 'mb-5' : 'my-5' }} p-3 wow fadeInUp blog-item" data-wow-delay="0.2s" style="max-width: 800px;">
+                    <p>{{ comment.commentMessage }}</p>
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('img/pomme.jpg') }}" class="img-fluid rounded-circle" style="width: 60px; height: 60px;" alt="">
+                        <div class="ms-3">
+                            <h5>{{ comment.user.username }}</h5>
+                            <p class="mb-0">{{ comment.commentDateCreated|date("F j, Y \à H:i:s") }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <!-- Comments End -->
+            <!-- Form Comment Start -->
+            <div class="mx-auto wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                {{ include("includes/form/comment.html.twig", {'button_label': 'Envoyer'}) }}
+            </div>
+            <!-- Form Comment End -->
         </div>
     </div>
     <!-- Blog End -->
+{% endblock %}
+
+
+{% block script %}
+    {{ parent() }}
+    {% if not app.user %}
+    <script>
+        document.querySelector('.textarea-wrapper.disable .overlay')?.addEventListener('click', function(e){
+            new bootstrap.Modal(document.getElementById('modalConnect')).show();
+        });
+    </script>
+    {% endif %}
 {% endblock %}

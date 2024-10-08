@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\Section;
+use App\Form\CommentType;
 use App\Repository\PostRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -40,14 +44,32 @@ class HomeController extends AbstractController
     }
 
     #[Route('/post/{id}', name: 'post')]
-    public function post(Post $post, AuthenticationUtils $authenticationUtils): Response
+    public function post(Request $request, Post $post, AuthenticationUtils $authenticationUtils, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($user !== null && $form->isSubmitted() && $form->isValid()) {
+            $comment->setCommentDateCreated(new \DateTime())
+                    ->setCommentPublished(true)
+                    ->setPost($post)
+                    ->setUser($user);
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('post', ['id' => $post->getId()], Response::HTTP_SEE_OTHER);
+        }
+
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
         return $this->render('home/post.html.twig', [
-            'title' => 'Section '.$post->getPostTitle(),
+            'title' => 'Post '.$post->getPostTitle(),
             'post' => $post,
             'last_username' => $lastUsername,
+            'form' => $form,
+            'comments' => $post->getComments()
         ]);
     }
 }

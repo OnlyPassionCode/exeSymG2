@@ -1,0 +1,20 @@
+form .textarea-wrapper.disable{
+    position: relative;
+}
+form .textarea-wrapper .overlay{
+    display: none;
+}
+form .textarea-wrapper.disable .overlay{
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: color 0.3s ease, background-color 0.3s ease;;
+}
+
+form .textarea-wrapper.disable .overlay:hover{
+    background-color: rgba(0,0,0,0.35);
+    color: white !important;
+}

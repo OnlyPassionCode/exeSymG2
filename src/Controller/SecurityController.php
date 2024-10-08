@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-# on va charger le Repository (manager) de Section
-use App\Repository\SectionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

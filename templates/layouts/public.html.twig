@@ -26,6 +26,9 @@
 
         <!-- Template Stylesheet -->
         <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
+
+        <!-- Custom Stylesheet -->
+        <link href="{{ asset('/css/custom.css') }}" rel="stylesheet">
     </head>
     <body>
         {% set error = app.flashes('error') %}
@@ -60,8 +63,7 @@
             <!-- Custom Javascript -->
             {% if error|length > 0 %}
                 <script>
-                    const modalConnect = new bootstrap.Modal(document.getElementById('modalConnect'))
-                    modalConnect.show();
+                    new bootstrap.Modal(document.getElementById('modalConnect')).show()
                 </script>
             {% endif %}
         {% endblock %}

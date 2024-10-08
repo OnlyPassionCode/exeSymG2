@@ -1,0 +1,9 @@
+{{ form_start(form) }}
+    {{ form_label(form.commentMessage) }}
+    <div class="textarea-wrapper mb-3 {{ app.user ? '' : 'disable' }}">
+        {{ form_widget(form.commentMessage, {'attr': {'disabled': app.user ? '' : 'true'}}) }}
+        <div class="overlay text-primary fw-bold">Veuillez vous connecter pour commenter</div>
+    </div>
+    {{ form_widget(form) }}
+    <button class="btn btn-primary" {{ app.user ? '' : 'disabled' }}>{{ button_label|default('Submit') }}</button>
+{{ form_end(form) }}
