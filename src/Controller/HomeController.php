@@ -46,6 +46,9 @@ class HomeController extends AbstractController
     #[Route('/post/{id}', name: 'post')]
     public function post(Request $request, Post $post, AuthenticationUtils $authenticationUtils, EntityManagerInterface $entityManager): Response
     {
+        if(!$post->isPostPublished()){
+            throw $this->createNotFoundException();
+        }
         $user = $this->getUser();
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);

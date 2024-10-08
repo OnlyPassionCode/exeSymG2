@@ -11,10 +11,10 @@
     {% endembed %}
 {% endblock %}
 {% block body %}
-    <h1>Post index</h1>
+    <h1 class="text-primary my-5">Liste de tout les posts</h1>
 
-    <table class="table">
-        <thead>
+    <table class="table table-striped">
+        <thead class="bg-dark text-white text-center">
             <tr>
                 <th>Id</th>
                 <th>PostTitle</th>
@@ -22,7 +22,7 @@
                 <th>PostDateCreated</th>
                 <th>PostDatePublished</th>
                 <th>PostPublished</th>
-                <th>actions</th>
+                <th colspan="2">actions</th>
             </tr>
         </thead>
         <tbody>
@@ -30,22 +30,26 @@
             <tr>
                 <td>{{ post.id }}</td>
                 <td>{{ post }}</td>
-                <td>{{ post.postDescription }}</td>
-                <td>{{ post.postDateCreated ? post.postDateCreated|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ post.postDatePublished ? post.postDatePublished|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ post.postPublished ? 'Yes' : 'No' }}</td>
+                <td>{{ post.postDescription|slice(0,200) ~ '...' }}</td>
+                <td>{{ post.postDateCreated ? post.postDateCreated|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ post.postDatePublished ? post.postDatePublished|date('d-m-Y H:i:s') : '' }}</td>
+                <td class="text-center">
+                    <img width="25" height="25" src="{{asset(post.postPublished ? 'img/checkbox-svgrepo-com.svg' : 'img/checkbox-undeterminate-filled-svgrepo-com.svg')}}" alt="">
+                </td>
                 <td>
-                    <a href="{{ path('app_admin_post_show', {'id': post.id}) }}">show</a>
-                    <a href="{{ path('app_admin_post_edit', {'id': post.id}) }}">edit</a>
+                    <a class="btn btn-light" href="{{ path('app_admin_post_show', {'id': post.id}) }}">Voir</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('app_admin_post_edit', {'id': post.id}) }}">Editer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">Aucun post n'a encore été crée.</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_post_new') }}">Create new</a>
+    <a class="mb-5 btn btn-primary" href="{{ path('app_admin_post_new') }}">Créer un nouveau</a>
 {% endblock %}

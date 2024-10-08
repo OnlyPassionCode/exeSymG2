@@ -11,10 +11,10 @@
     {% endembed %}
 {% endblock %}
 {% block body %}
-    <h1>Tag index</h1>
+    <h1 class="text-primary my-5">Liste de tout les tags</h1>
 
-    <table class="table">
-        <thead>
+    <table class="table table-striped">
+        <thead class="bg-dark text-white text-center">
             <tr>
                 <th>Id</th>
                 <th>TagName</th>
@@ -26,9 +26,9 @@
             <tr>
                 <td>{{ tag.id }}</td>
                 <td>{{ tag.tagName }}</td>
-                <td>
-                    <a href="{{ path('app_admin_tag_show', {'id': tag.id}) }}">show</a>
-                    <a href="{{ path('app_admin_tag_edit', {'id': tag.id}) }}">edit</a>
+                <td class="text-center">
+                    <a class="btn btn-light me-2" href="{{ path('app_admin_tag_show', {'id': tag.id}) }}">Voir</a>
+                    <a class="btn btn-primary" href="{{ path('app_admin_tag_edit', {'id': tag.id}) }}">Editer</a>
                 </td>
             </tr>
         {% else %}
@@ -39,5 +39,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_tag_new') }}">Create new</a>
+    <a class="mb-5 btn btn-primary" href="{{ path('app_admin_tag_new') }}">Créer un nouveau</a>
 {% endblock %}
