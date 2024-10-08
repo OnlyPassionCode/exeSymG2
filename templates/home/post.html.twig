@@ -19,13 +19,21 @@
                 <p class="mb-0">{{ post.postDescription }}</p>
             </div>
             <!-- Comments Start -->
+            {% if comments|length == 0 %}
             <div class="mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                {% if comments|length == 0 %}
                     <h2 class="text-primary">Devenez le premier a commenter :</h2>
-                {% else %}
-                    <h2 class="text-primary">Les commentaires :</h2>
-                {% endif %}
             </div>
+            {% endif %}
+            <!-- Form Comment Start -->
+            <div class="mx-auto wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                {{ include("includes/form/comment.html.twig", {'button_label': 'Envoyer'}) }}
+            </div>
+            <!-- Form Comment End -->
+            {% if comments|length != 0 %}
+            <div class="mx-auto pb-5 wow fadeInUp mt-5" data-wow-delay="0.2s" style="max-width: 800px;">
+                    <h2 class="text-primary">Les commentaires :</h2>
+            </div>
+            {% endif %}
             {% for comment in comments %}
                 <div class="mx-auto {{ loop.first ? 'mb-5' : 'my-5' }} p-3 wow fadeInUp blog-item" data-wow-delay="0.2s" style="max-width: 800px;">
                     <p>{{ comment.commentMessage }}</p>
@@ -39,11 +47,6 @@
                 </div>
             {% endfor %}
             <!-- Comments End -->
-            <!-- Form Comment Start -->
-            <div class="mx-auto wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                {{ include("includes/form/comment.html.twig", {'button_label': 'Envoyer'}) }}
-            </div>
-            <!-- Form Comment End -->
         </div>
     </div>
     <!-- Blog End -->
