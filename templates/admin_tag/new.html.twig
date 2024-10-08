@@ -11,9 +11,9 @@
     {% endembed %}
 {% endblock %}
 {% block body %}
-    <h1>Create new Tag</h1>
+    <h1 class="text-primary my-5">Créer un Tag</h1>
 
-    {{ include('admin_tag/_form.html.twig') }}
+    {{ include('admin_tag/_form.html.twig', {button_label: 'Envoyer'}) }}
 
-    <a href="{{ path('app_admin_tag_index') }}">back to list</a>
+    <a class="d-block my-5" href="{{ path('app_admin_tag_index') }}">Retour à la liste</a>
 {% endblock %}

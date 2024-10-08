@@ -49,6 +49,7 @@ final class AdminTagController extends AbstractController
     {
         return $this->render('admin_tag/show.html.twig', [
             'tag' => $tag,
+            'title' => $tag->getTagName(),
         ]);
     }
 

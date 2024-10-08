@@ -11,9 +11,9 @@
     {% endembed %}
 {% endblock %}
 {% block body %}
-    <h1>Create new Post</h1>
+    <h1 class="text-primary my-5">Créer un Post</h1>
 
-    {{ include('admin_post/_form.html.twig') }}
+    {{ include('admin_post/_form.html.twig', {button_label: 'Envoyer'}) }}
 
-    <a href="{{ path('app_admin_post_index') }}">back to list</a>
+    <a class="d-block my-5" href="{{ path('app_admin_post_index') }}">Retour à la liste</a>
 {% endblock %}
