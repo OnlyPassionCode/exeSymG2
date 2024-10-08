@@ -60,6 +60,9 @@ final class AdminSectionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($request->request->get('action') === 'delete')
+                $entityManager->remove($section);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_section_index', [], Response::HTTP_SEE_OTHER);

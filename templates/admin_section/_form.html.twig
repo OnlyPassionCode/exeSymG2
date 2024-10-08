@@ -1,4 +1,6 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    <input type="hidden" name="action" value="edit">
+    <button class="btn btn-primary" onclick="this.form.action.value='edit';">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-danger" onclick="this.form.action.value='delete';return confirm('Êtes-vous sûre de vouloir supprimer cette Section ?');"><i class="fas fa-trash"></i></button>
 {{ form_end(form) }}

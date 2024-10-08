@@ -60,6 +60,10 @@ final class AdminTagController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($request->request->get('action') === 'delete')
+                $entityManager->remove($tag);
+            
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_tag_index', [], Response::HTTP_SEE_OTHER);

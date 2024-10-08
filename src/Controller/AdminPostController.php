@@ -62,9 +62,15 @@ final class AdminPostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if($post->isPostPublished()){
-                if($post->getPostDatePublished() === null) $post->setPostDatePublished(new \DateTime());
-            }else $post->setPostDatePublished(null);
+
+            if ($request->request->get('action') === 'delete'){
+                $entityManager->remove($post);
+            }else{
+                if($post->isPostPublished()){
+                    if($post->getPostDatePublished() === null) $post->setPostDatePublished(new \DateTime());
+                }else $post->setPostDatePublished(null);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_post_index', [], Response::HTTP_SEE_OTHER);
