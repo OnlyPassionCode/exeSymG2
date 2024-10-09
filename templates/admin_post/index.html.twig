@@ -16,13 +16,13 @@
     <table class="table table-striped">
         <thead class="bg-dark text-white text-center">
             <tr>
-                <th>Id</th>
-                <th>PostTitle</th>
-                <th>PostDescription</th>
-                <th>PostDateCreated</th>
-                <th>PostDatePublished</th>
-                <th>PostPublished</th>
-                <th colspan="2">actions</th>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Date de création</th>
+                <th>Date de publication</th>
+                <th>Est-il publié ?</th>
+                <th colspan="2">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -32,7 +32,7 @@
                 <td>{{ post }}</td>
                 <td>{{ post.postDescription|slice(0,200) ~ '...' }}</td>
                 <td>{{ post.postDateCreated ? post.postDateCreated|date('d-m-Y H:i:s') : '' }}</td>
-                <td>{{ post.postDatePublished ? post.postDatePublished|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ post.postDatePublished ? post.postDatePublished|date('d-m-Y H:i:s') : 'Pas encore publié' }}</td>
                 <td>
                     <div class="form-check form-switch d-flex justify-content-center">
                         <input onclick="handleClickFormCheckInput(event)" data-id="{{ post.id }}" class="form-check-input" type="checkbox" role="switch" {{ post.postPublished ? 'checked' : '' }}>
