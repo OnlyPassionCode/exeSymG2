@@ -1,0 +1,55 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}Comment index{% endblock %}
+{% block hero %}
+    {% embed "includes/hero.html.twig" %}
+        {% block bread %}
+                <li class="breadcrumb-item"><a href="{{ path('app_admin') }}">Admin</a></li>
+                <li class="breadcrumb-item active text-primary">CRUD Comments</li>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+{% block body %}
+    <h1 class="text-primary my-5">Liste de tout les commentaires</h1>
+
+    <table class="table table-striped">
+        <thead class="bg-dark text-white text-center">
+            <tr>
+                <th>ID</th>
+                <th>Message</th>
+                <th>Date de création</th>
+                <th>Est-il publié ?</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for comment in comments %}
+            <tr>
+                <td>{{ comment.id }}</td>
+                <td>{{ comment.commentMessage }}</td>
+                <td>{{ comment.commentDateCreated ? comment.commentDateCreated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <div class="form-check form-switch d-flex justify-content-center">
+                        <input onclick="handleClickFormCheckInput(event)" data-id="{{ comment.id }}" class="form-check-input" type="checkbox" role="switch" {{ comment.commentPublished ? 'checked' : '' }}>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <a class="btn btn-light me-2" href="{{ path('app_admin_comment_show', {'id': comment.id}) }}">Voir</a>
+                    <a class="btn btn-primary" href="{{ path('app_admin_comment_edit', {'id': comment.id}) }}">Editer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucun commentaire n'a encore été crée.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="mb-5 btn btn-primary" href="{{ path('app_admin_comment_new') }}">Créer un nouveau</a>
+{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+    {% include 'includes/script/handleClickFormCheckInput.html.twig' with {'routeName': 'app_admin_comment_edit_published'} %}
+{% endblock %}

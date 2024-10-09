@@ -1,0 +1,53 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}Comment{% endblock %}
+{% block hero %}
+    {% embed "includes/hero.html.twig" %}
+        {% block bread %}
+                <li class="breadcrumb-item"><a href="{{ path('app_admin') }}">Admin</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_comment_index') }}">CRUD Comments</a></li>
+                <li class="breadcrumb-item active text-primary">Show</li>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+{% block body %}
+    <h1 class="text-primary my-5">Commentaire de  {{ comment.user.username }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>ID</th>
+                <td>{{ comment.id }}</td>
+            </tr>
+            <tr>
+                <th>Message</th>
+                <td>{{ comment.commentMessage }}</td>
+            </tr>
+            <tr>
+                <th>Date de création</th>
+                <td>{{ comment.commentDateCreated ? comment.commentDateCreated|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Post</th>
+                <td><a href="{{ path('app_admin_post_show', {id: comment.post.id}) }}">{{ comment.post }}</a></td>
+            </tr>
+            <tr>
+                <th>Est-il publié ?</th>
+                <td>
+                    <div class="form-check form-switch">
+                        <input onclick="handleClickFormCheckInput(event)" data-id="{{ comment.id }}" class="form-check-input" type="checkbox" role="switch" {{ comment.commentPublished ? 'checked' : '' }}>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="d-block my-5">
+        <a class="btn btn-primary" href="{{ path('app_admin_comment_edit', {'id': comment.id}) }}">Editer</a>
+        <a class="btn btn-light" href="{{ path('app_admin_comment_index') }}">Retour à la liste</a>
+    </div>
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% include 'includes/script/handleClickFormCheckInput.html.twig' with {'routeName': 'app_admin_comment_edit_published'} %}
+{% endblock %}

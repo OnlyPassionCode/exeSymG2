@@ -16,6 +16,18 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    public function findPublishedCommentsByPost(int $postId)
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.post', 'p')
+            ->where('p.id = :postId')
+            ->andWhere('c.commentPublished = true')
+            ->orderBy('c.id', "DESC")
+            ->setParameter('postId', $postId)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Comment[] Returns an array of Comment objects
     //     */

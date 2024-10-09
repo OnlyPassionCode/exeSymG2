@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\Section;
 use App\Form\CommentType;
+use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,7 +45,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/post/{id}', name: 'post')]
-    public function post(Request $request, Post $post, AuthenticationUtils $authenticationUtils, EntityManagerInterface $entityManager): Response
+    public function post(Request $request, Post $post, CommentRepository $commentRepository, AuthenticationUtils $authenticationUtils, EntityManagerInterface $entityManager): Response
     {
         if(!$post->isPostPublished()){
             throw $this->createNotFoundException();
@@ -72,7 +73,7 @@ class HomeController extends AbstractController
             'post' => $post,
             'last_username' => $lastUsername,
             'form' => $form,
-            'comments' => array_reverse($post->getComments()->toArray())
+            'comments' => $commentRepository->findPublishedCommentsByPost($post->getId())
         ]);
     }
 }
