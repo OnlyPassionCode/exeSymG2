@@ -22,7 +22,7 @@
                 </div>
                 <a href="#" class="nav-item nav-link {{ active is defined and active == "Contact" ? 'active' : '' }}">Nous contacter</a>
                 {% if not app.user %}
-                    <a href="#" id="connexionNavItem" class="nav-item nav-link text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#modalConnect"><span class="border border-primary rounded shadow p-2">Connexion</span></a>
+                    <a href="#" style="display: none;" id="connexionNavItem" class="nav-item nav-link text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#modalConnect"><span class="border border-primary rounded shadow p-2">Connexion</span></a>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <div class="nav-item dropdown">
