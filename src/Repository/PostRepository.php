@@ -18,6 +18,17 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
+    public function findPublishedPostsBySection(int $sectionId)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.sections', 's')
+            ->where('s.id = :sectionId')
+            ->andWhere('p.postPublished = true')
+            ->setParameter('sectionId', $sectionId)
+            ->getQuery()
+            ->getResult();
+    }
+
 
 
     //    /**
