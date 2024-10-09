@@ -18,8 +18,10 @@
     // Sticky Navbar
     $(window).scroll(function () {
         if ($(this).scrollTop() > 45) {
+            $('#connexionNavItem').show();
             $('.navbar').addClass('sticky-top shadow-sm');
         } else {
+            $('#connexionNavItem').hide();
             $('.navbar').removeClass('sticky-top shadow-sm');
         }
     });

@@ -11,7 +11,7 @@
             <div class="navbar-nav ms-auto py-0">
                 <a href="{{ path('app_home') }}" class="nav-item nav-link {{ active is defined and active == "Accueil" ? 'active' : '' }}">Accueil</a>
                 <div class="nav-item dropdown">
-                    <a href="{{ path('app_home') }}#sections" onclick="this.href !== '#' ? window.location.href=this.href : ''" class="nav-link {{ active is defined and active == "Section" ? 'active' : '' }}" data-bs-toggle="dropdown">
+                    <a href="{{ path('app_home') }}#sections" class="nav-link {{ active is defined and active == "Section" ? 'active' : '' }}" data-bs-toggle="dropdown">
                         <span class="dropdown-toggle">Sections</span>
                     </a>
                     <div class="dropdown-menu m-0">
@@ -21,20 +21,22 @@
                     </div>
                 </div>
                 <a href="#" class="nav-item nav-link {{ active is defined and active == "Contact" ? 'active' : '' }}">Nous contacter</a>
-            </div>
-
-            {% if is_granted('ROLE_ADMIN') %}
-                <div class="nav-item dropdown">
-                    <a href="#" onclick="this.href !== '#' ? window.location.href=this.href : ''" data-bs-toggle="dropdown">
-                        <span class="dropdown-toggle text-primary fw-bold">Administration</span>
-                    </a>
-                    <div class="dropdown-menu m-0">
-                        <a href="{{ path('app_admin_section_index') }}" class="dropdown-item">CRUD Sections</a>
-                        <a href="{{ path('app_admin_post_index') }}" class="dropdown-item">CRUD Posts</a>
-                        <a href="{{ path('app_admin_tag_index') }}" class="dropdown-item">CRUD Tags</a>
+                {% if not app.user %}
+                    <a href="#" id="connexionNavItem" class="nav-item nav-link text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#modalConnect"><span class="border border-primary rounded shadow p-2">Connexion</span></a>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link" data-bs-toggle="dropdown">
+                            <span class="dropdown-toggle text-primary fw-bold">Administration</span>
+                        </a>
+                        <div class="dropdown-menu m-0">
+                            <a href="{{ path('app_admin_section_index') }}" class="dropdown-item">CRUD Sections</a>
+                            <a href="{{ path('app_admin_post_index') }}" class="dropdown-item">CRUD Posts</a>
+                            <a href="{{ path('app_admin_tag_index') }}" class="dropdown-item">CRUD Tags</a>
+                        </div>
                     </div>
-                </div>
-            {% endif %}
+                {% endif %}
+            </div>
         </div>
     </nav>
 </div>
