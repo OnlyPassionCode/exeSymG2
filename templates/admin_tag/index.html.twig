@@ -4,9 +4,8 @@
 {% block hero %}
     {% embed "includes/hero.html.twig" %}
         {% block bread %}
-                <li class="breadcrumb-item"><a href="{{ path('app_admin_tag_index') }}">Admin</a></li>
-                <li class="breadcrumb-item"><a href="{{ path('app_admin_tag_index') }}">CRUD</a></li>
-                <li class="breadcrumb-item active text-primary">Tags</li>
+                <li class="breadcrumb-item"><a href="{{ path('app_admin') }}">Admin</a></li>
+                <li class="breadcrumb-item active text-primary">CRUD Tags</li>
         {% endblock %}
     {% endembed %}
 {% endblock %}

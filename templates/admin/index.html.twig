@@ -1,0 +1,30 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}{{title}}{% endblock %}
+{% block hero %}
+    {% embed "includes/hero.html.twig" %}
+        {% block bread %}
+                <li class="breadcrumb-item active"><a href="#" class="text-primary">Admin</a></li>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+{% block body %}
+    <h1 class="text-primary my-5">Liste de tout les CRUD</h1>
+
+        <table class="table">
+        <tbody>
+            <tr>
+                <th><a href="{{ path('app_admin_section_index') }}">Sections</a></th>
+                <td>Gérez toutes les sections du site</td>
+            </tr>
+            <tr>
+                <th><a href="{{ path('app_admin_post_index') }}">Posts</a></th>
+                <td>Gérez tout les posts du site</td>
+            </tr>
+            <tr>
+                <th><a href="{{ path('app_admin_tag_index') }}">Tags</a></th>
+                <td>Gérez tout les tags du site</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
