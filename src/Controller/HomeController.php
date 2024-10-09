@@ -72,7 +72,7 @@ class HomeController extends AbstractController
             'post' => $post,
             'last_username' => $lastUsername,
             'form' => $form,
-            'comments' => $post->getComments()
+            'comments' => array_reverse($post->getComments()->toArray())
         ]);
     }
 }
