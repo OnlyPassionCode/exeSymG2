@@ -33,8 +33,10 @@
                 <td>{{ post.postDescription|slice(0,200) ~ '...' }}</td>
                 <td>{{ post.postDateCreated ? post.postDateCreated|date('d-m-Y H:i:s') : '' }}</td>
                 <td>{{ post.postDatePublished ? post.postDatePublished|date('d-m-Y H:i:s') : '' }}</td>
-                <td class="text-center">
-                    <img width="25" height="25" src="{{asset(post.postPublished ? 'img/checkbox-svgrepo-com.svg' : 'img/checkbox-undeterminate-filled-svgrepo-com.svg')}}" alt="">
+                <td>
+                    <div class="form-check form-switch d-flex justify-content-center">
+                        <input onclick="handleClickFormCheckInput(event)" data-id="{{ post.id }}" class="form-check-input" type="checkbox" role="switch" {{ post.postPublished ? 'checked' : '' }}>
+                    </div>
                 </td>
                 <td>
                     <a class="btn btn-light" href="{{ path('app_admin_post_show', {'id': post.id}) }}">Voir</a>
@@ -52,4 +54,22 @@
     </table>
 
     <a class="mb-5 btn btn-primary" href="{{ path('app_admin_post_new') }}">Créer un nouveau</a>
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    <script>
+        function handleClickFormCheckInput(e){
+            const checked = e.target.checked;
+            const formData = new FormData();
+            formData.append('checked', checked);
+            fetch('{{ path('app_admin_post_edit_published', {id: -1})}}'.replace('-1', e.target.dataset.id), {
+                    method: 'POST', 
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => console.log('Succès:', data))
+                .catch((error) => console.error('Erreur:', error));
+
+        }
+    </script>
 {% endblock %}

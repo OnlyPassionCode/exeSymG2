@@ -7,6 +7,8 @@ use App\Form\PostType;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -52,6 +54,24 @@ final class AdminPostController extends AbstractController
         return $this->render('admin_post/show.html.twig', [
             'post' => $post,
             'title' => 'Post '.$post->getPostTitle(),
+        ]);
+    }
+
+    #[Route('/{id}/edit/published', name: 'app_admin_post_edit_published', methods: ['POST'])]
+    public function editPublished(Request $request, Post $post, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $checked = $request->request->get('checked');
+        $boolean = filter_var($checked, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
+        if(!is_bool($boolean))
+            throw new BadRequestException("The checked key must be a boolean !");
+        
+        $post->setPostPublished($boolean);
+        $entityManager->flush();
+
+        return $this->json([
+            'checked' => $checked,
+            'id' => $post->getId()
         ]);
     }
 
