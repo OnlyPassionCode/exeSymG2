@@ -33,11 +33,37 @@
             </tr>
             <tr>
                 <th>PostDatePublished</th>
-                <td>{{ post.postDatePublished ? post.postDatePublished|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ post.postDatePublished ? post.postDatePublished|date('Y-m-d H:i:s') : 'Pas encore publié' }}</td>
             </tr>
             <tr>
                 <th>PostPublished</th>
-                <td>{{ post.postPublished ? 'Yes' : 'No' }}</td>
+                <td>
+                    <div class="form-check form-switch">
+                        <input onclick="handleClickFormCheckInput(event)" data-id="{{ post.id }}" class="form-check-input" type="checkbox" role="switch" {{ post.postPublished ? 'checked' : '' }}>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Sections</th>
+                <td>
+                {%- for section in post.sections -%}
+                    <a href="{{ path('app_admin_section_show', {id: section.id}) }}">{{ section }}</a>
+                    {%- if not loop.last -%}
+                        {{ ' | ' }}
+                    {%- endif -%}
+                {%- endfor -%}
+                </td>
+            </tr>
+            <tr>
+                <th>Tags</th>
+                <td>
+                {%- for tag in post.tags -%}
+                    <a href="{{ path('app_admin_tag_show', {id: tag.id}) }}">{{ tag }}</a>
+                    {%- if not loop.last -%}
+                        {{ ' | ' }}
+                    {%- endif -%}
+                {%- endfor -%}
+                </td>
             </tr>
         </tbody>
     </table>
@@ -45,4 +71,22 @@
         <a class="btn btn-primary" href="{{ path('app_admin_post_edit', {'id': post.id}) }}">Editer</a>
         <a class="btn btn-light" href="{{ path('app_admin_post_index') }}">Retour à la liste</a>
     </div>
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    <script>
+        function handleClickFormCheckInput(e){
+            const checked = e.target.checked;
+            const formData = new FormData();
+            formData.append('checked', checked);
+            fetch('{{ path('app_admin_post_edit_published', {id: -1})}}'.replace('-1', e.target.dataset.id), {
+                    method: 'POST', 
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => console.log('Succès:', data))
+                .catch((error) => console.error('Erreur:', error));
+
+        }
+    </script>
 {% endblock %}

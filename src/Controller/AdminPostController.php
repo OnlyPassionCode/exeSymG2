@@ -67,6 +67,9 @@ final class AdminPostController extends AbstractController
             throw new BadRequestException("The checked key must be a boolean !");
         
         $post->setPostPublished($boolean);
+        if($post->isPostPublished()){
+            if($post->getPostDatePublished() === null) $post->setPostDatePublished(new \DateTime());
+        }else $post->setPostDatePublished(null);
         $entityManager->flush();
 
         return $this->json([
