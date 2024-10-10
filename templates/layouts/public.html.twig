@@ -31,7 +31,7 @@
         <link href="{{ asset('/css/custom.css') }}" rel="stylesheet">
     </head>
     <body>
-        {% set error = app.flashes('error') %}
+        {% set error = app.session.get('loginError') %}
         {% include "includes/spinner.html.twig" %}
         {% if not app.user %}
             {% include "includes/modal.connect.html.twig" %}
@@ -69,3 +69,4 @@
         {% endblock %}
     </body>
 </html>
+{{ app.session.remove('loginError') }}

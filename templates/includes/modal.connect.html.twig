@@ -9,7 +9,7 @@
                         <form method="POST" action="{{ path('app_login') }}">
                             <div class="modal-body">
                                 {% if error|length > 0 %}
-                                    <div class="alert alert-danger">Nom de compte ou mot de passe incorrect</div>
+                                    <div class="alert alert-danger">{{ error }}</div>
                                 {% endif %}
                                 {% if app.user %}
                                     <div class="mb-3">
