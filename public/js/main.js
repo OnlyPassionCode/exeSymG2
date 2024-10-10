@@ -15,13 +15,17 @@
     // Initiate the wowjs
     new WOW().init();
 
+    if(window.innerWidth <= 992)
+        $('#connexionNavItem').show();
+
     // Sticky Navbar
     $(window).scroll(function () {
         if ($(this).scrollTop() > 45) {
             $('#connexionNavItem').show();
             $('.navbar').addClass('sticky-top shadow-sm');
         } else {
-            $('#connexionNavItem').hide();
+            if(window.innerWidth > 992)
+                $('#connexionNavItem').hide();
             $('.navbar').removeClass('sticky-top shadow-sm');
         }
     });
