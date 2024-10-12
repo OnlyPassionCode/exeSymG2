@@ -16,10 +16,10 @@
         <thead class="bg-dark text-white text-center">
             <tr>
                 <th>ID</th>
+                <th>User</th>
                 <th>Titre</th>
                 <th>Description</th>
                 <th>Date de création</th>
-                <th>Date de publication</th>
                 <th>Est-il publié ?</th>
                 <th colspan="2">Actions</th>
             </tr>
@@ -28,10 +28,10 @@
         {% for post in posts %}
             <tr>
                 <td>{{ post.id }}</td>
+                <td {{ 'ROLE_ADMIN' in post.user.roles ? 'class="text-danger"' : '' }}>{{ post.user.username }}</td>
                 <td>{{ post }}</td>
-                <td>{{ post.postDescription|slice(0,200) ~ '...' }}</td>
+                <td>{{ post.postDescription|slice(0,175) ~ '...' }}</td>
                 <td>{{ post.postDateCreated ? post.postDateCreated|date('d-m-Y H:i:s') : '' }}</td>
-                <td>{{ post.postDatePublished ? post.postDatePublished|date('d-m-Y H:i:s') : 'Pas encore publié' }}</td>
                 <td>
                     <div class="form-check form-switch d-flex justify-content-center">
                         <input onclick="handleClickFormCheckInput(event)" data-id="{{ post.id }}" class="form-check-input" type="checkbox" role="switch" {{ post.postPublished ? 'checked' : '' }}>
