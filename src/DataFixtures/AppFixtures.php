@@ -70,7 +70,6 @@ class AppFixtures extends Fixture
             $user = new User();
             // username de : user0 à user10
             $user->setUsername('user'.$i);
-            $user->setRoles(['ROLE_USER']);
             // hashage du mot de passe de : user0 à user10
             $pwdHash = $this->hasher->hashPassword($user, 'user'.$i);
             $user->setPassword($pwdHash);

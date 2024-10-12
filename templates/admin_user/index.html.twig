@@ -1,0 +1,44 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}User index{% endblock %}
+{% block hero %}
+    {% embed "includes/hero.html.twig" %}
+        {% block bread %}
+                <li class="breadcrumb-item"><a href="{{ path('app_admin') }}">Admin</a></li>
+                <li class="breadcrumb-item active text-primary">CRUD Users</li>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+{% block body %}
+    <h1 class="text-primary my-5">Liste de tout les users</h1>
+
+    <table class="table table-striped">
+        <thead class="bg-dark text-white text-center">
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Roles</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td {{ 'ROLE_ADMIN' in user.roles ? 'class="text-danger"' : '' }}>{{ user.username }}</td>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td class="text-center">
+                    <a class="btn btn-light me-2" href="{{ path('app_admin_user_show', {'id': user.id}) }}">Voir</a>
+                    <a class="btn btn-primary" href="{{ path('app_admin_user_edit', {'id': user.id}) }}">Editer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucun User n'a encore été crée</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="mb-5 btn btn-primary" href="{{ path('app_admin_user_new') }}">Créer un nouveau</a>
+{% endblock %}

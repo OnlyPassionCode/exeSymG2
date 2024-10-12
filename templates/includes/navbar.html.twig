@@ -30,10 +30,11 @@
                             <span class="dropdown-toggle text-primary fw-bold">Administration</span>
                         </a>
                         <div class="dropdown-menu m-0">
+                            <a href="{{ path('app_admin_user_index') }}" class="dropdown-item">CRUD Users</a>
                             <a href="{{ path('app_admin_section_index') }}" class="dropdown-item">CRUD Sections</a>
                             <a href="{{ path('app_admin_post_index') }}" class="dropdown-item">CRUD Posts</a>
-                            <a href="{{ path('app_admin_tag_index') }}" class="dropdown-item">CRUD Tags</a>
                             <a href="{{ path('app_admin_comment_index') }}" class="dropdown-item">CRUD Comments</a>
+                            <a href="{{ path('app_admin_tag_index') }}" class="dropdown-item">CRUD Tags</a>
                         </div>
                     </div>
                 {% endif %}

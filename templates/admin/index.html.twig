@@ -14,6 +14,10 @@
         <table class="table">
         <tbody>
             <tr>
+                <th><a href="{{ path('app_admin_user_index') }}">Users</a></th>
+                <td>Gérez tout vos utilisateurs.</td>
+            </tr>
+            <tr>
                 <th><a href="{{ path('app_admin_section_index') }}">Sections</a></th>
                 <td>Gérez toutes les sections du site</td>
             </tr>
@@ -22,12 +26,12 @@
                 <td>Gérez tout les posts du site</td>
             </tr>
             <tr>
-                <th><a href="{{ path('app_admin_tag_index') }}">Tags</a></th>
-                <td>Gérez tout les tags du site</td>
-            </tr>
-            <tr>
                 <th><a href="{{ path('app_admin_comment_index') }}">Comments</a></th>
                 <td>Gérez tout les commentaires du site</td>
+            </tr>
+            <tr>
+                <th><a href="{{ path('app_admin_tag_index') }}">Tags</a></th>
+                <td>Gérez tout les tags du site</td>
             </tr>
         </tbody>
     </table>

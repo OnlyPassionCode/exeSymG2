@@ -1,19 +1,19 @@
 {% extends 'layouts/admin.html.twig' %}
 
-{% block title %}Edit Tag{% endblock %}
+{% block title %}Edit User{% endblock %}
 {% block hero %}
     {% embed "includes/hero.html.twig" %}
         {% block bread %}
                 <li class="breadcrumb-item"><a href="{{ path('app_admin') }}">Admin</a></li>
-                <li class="breadcrumb-item"><a href="{{ path('app_admin_tag_index') }}">CRUD Tags</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_user_index') }}">CRUD Users</a></li>
                 <li class="breadcrumb-item active text-primary">Edit</li>
         {% endblock %}
     {% endembed %}
 {% endblock %}
 {% block body %}
-    <h1 class="text-primary my-5">Editer un Tag</h1>
+    <h1 class="text-primary my-5">Editer un User</h1>
 
-    {{ include('admin_tag/_form.html.twig', {'button_label': 'Modifier'}) }}
+    {{ include('admin_user/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a class="d-block my-5" href="{{ path('app_admin_tag_index') }}">Retour à la liste</a>
+    <a class="d-block my-5" href="{{ path('app_admin_user_index') }}">Retour à la liste</a>
 {% endblock %}

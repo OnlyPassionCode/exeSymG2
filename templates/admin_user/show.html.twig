@@ -1,0 +1,41 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}User{% endblock %}
+{% block hero %}
+    {% embed "includes/hero.html.twig" %}
+        {% block bread %}
+                <li class="breadcrumb-item"><a href="{{ path('app_admin') }}">Admin</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_user_index') }}">CRUD Users</a></li>
+                <li class="breadcrumb-item active text-primary">Show</li>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+{% block body %}
+    <h1 class="text-primary my-5">{{ user.username }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ user.password }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="d-block my-5">
+        <a class="btn btn-primary" href="{{ path('app_admin_user_edit', {'id': user.id}) }}">Editer</a>
+        <a class="btn btn-light" href="{{ path('app_admin_user_index') }}">Retour à la liste</a>
+    </div>
+{% endblock %}
