@@ -22,7 +22,7 @@ class CommentRepository extends ServiceEntityRepository
             ->innerJoin('c.post', 'p')
             ->where('p.id = :postId')
             ->andWhere('c.commentPublished = true')
-            ->orderBy('c.id', "DESC")
+            ->orderBy('c.commentDateCreated', "DESC")
             ->setParameter('postId', $postId)
             ->getQuery()
             ->getResult();

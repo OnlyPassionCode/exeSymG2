@@ -4,7 +4,7 @@
     {% embed "includes/hero.html.twig" %}
         {% block bread %}
             <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Section</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('app_home') }}#sections">Section</a></li>
             <li class="breadcrumb-item active text-primary">{{ section }}</li>
         {% endblock %}
     {% endembed %}
