@@ -16,17 +16,21 @@
         <thead class="bg-dark text-white text-center">
             <tr>
                 <th>ID</th>
+                <th>User</th>
+                <th>Post</th>
                 <th>Message</th>
                 <th>Date de création</th>
                 <th>Est-il publié ?</th>
-                <th>Actions</th>
+                <th colspan="2">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for comment in comments %}
             <tr>
                 <td>{{ comment.id }}</td>
-                <td>{{ comment.commentMessage }}</td>
+                <td {{ 'ROLE_ADMIN' in comment.user.roles ? 'class="text-danger"' : '' }}>{{ comment.user.username }}</td>
+                <td style="max-width: 150px"><a href="{{ path('app_admin_post_show', {id: comment.post.id}) }}">{{ comment.post.postTitle }}</a></td>
+                <td style="max-width: 450px">{{ comment.commentMessage|slice(0,175) ~ '...' }}</td>
                 <td>{{ comment.commentDateCreated ? comment.commentDateCreated|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <div class="form-check form-switch d-flex justify-content-center">
@@ -34,7 +38,9 @@
                     </div>
                 </td>
                 <td class="text-center">
-                    <a class="btn btn-light me-2" href="{{ path('app_admin_comment_show', {'id': comment.id}) }}">Voir</a>
+                    <a class="btn btn-light" href="{{ path('app_admin_comment_show', {'id': comment.id}) }}">Voir</a>
+                </td>
+                <td class="text-center">
                     <a class="btn btn-primary" href="{{ path('app_admin_comment_edit', {'id': comment.id}) }}">Editer</a>
                 </td>
             </tr>
