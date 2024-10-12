@@ -29,7 +29,9 @@
                 <td>{{ section }}</td>
                 <td>{{ section.sectionDescription }}</td>
                 <td class="text-center">
-                    <a class="btn btn-light me-2" href="{{ path('app_admin_section_show', {'id': section.id}) }}">Voir</a>
+                    <a class="btn btn-light" href="{{ path('app_admin_section_show', {'id': section.id}) }}">Voir</a>
+                </td>
+                <td class="text-center">
                     <a class="btn btn-primary" href="{{ path('app_admin_section_edit', {'id': section.id}) }}">Editer</a>
                 </td>
             </tr>
