@@ -1,10 +1,10 @@
 services:
-  php:
+  app:
     build: .
     volumes:
       - ./:/var/www/html
     depends_on:
-      - mysql
+      - db
   nginx:
     image: nginx:alpine
     volumes:
@@ -13,24 +13,16 @@ services:
     ports:
       - 8080:80
     depends_on:
-      - php
-  mysql:
+      - app
+  db:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_CHARSET: ${DB_CHARSET}
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
     ports:
       - ${DB_PORT}:3306
     volumes:
-      - mysql-data:/var/lib/mysql
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: mysql
-    ports:
-      - 8081:80
-
+      - db-data:/var/lib/mysql
 volumes:
-  mysql-data:
+  db-data:

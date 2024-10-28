@@ -1,0 +1,11 @@
+vendor/
+var/
+.git/
+.idea/
+.vscode/
+.env.local
+.env.*.local
+*.log
+*.pyc
+*.pyo
+.DS_Store
