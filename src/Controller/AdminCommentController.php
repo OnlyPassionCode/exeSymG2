@@ -18,7 +18,7 @@ final class AdminCommentController extends AbstractController{
     public function index(CommentRepository $commentRepository): Response
     {
         return $this->render('admin_comment/index.html.twig', [
-            'comments' => $commentRepository->findAll(),
+            'comments' => array_reverse($commentRepository->findAll()),
             'title' => "CRUD Comments",
         ]);
     }

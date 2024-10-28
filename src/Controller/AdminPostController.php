@@ -20,7 +20,7 @@ final class AdminPostController extends AbstractController
     public function index(PostRepository $postRepository): Response
     {
         return $this->render('admin_post/index.html.twig', [
-            'posts' => $postRepository->findAll(),
+            'posts' => array_reverse($postRepository->findAll()),
             'title' => "CRUD Posts",
         ]);
     }

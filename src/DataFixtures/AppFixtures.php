@@ -21,21 +21,41 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 # pour utiliser Faker plutôt que Factory
 # comme nom de classe
 use Faker\Factory AS Faker;
+use Faker\Generator;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class AppFixtures extends Fixture
 {
     // Attribut privé contenant le hacheur de mot de passe
     private UserPasswordHasherInterface $hasher;
+    private AsciiSlugger $slugger;
+    private Generator $faker;
 
     // création d'un constructeur pour récupérer le hacher
     // de mots de passe
     public function __construct(UserPasswordHasherInterface $userPasswordHasher){
         $this->hasher = $userPasswordHasher;
+        $this->slugger = new AsciiSlugger();
+        $this->faker = Faker::create('fr_FR');
+    }
+
+    private function createRandomUser(int $i): User{
+        $user = new User();
+        $user->setUsername('user'.$i);
+        $pwdHash = $this->hasher->hashPassword($user, 'user'.$i);
+        $user->setPassword($pwdHash);
+        $lastName = $this->faker->lastName();
+        $firstName = $this->faker->firstName();
+        $user->setFullname("$lastName $firstName");
+        $user->setUniqid(uniqid());
+        $user->setEmail(strtolower($lastName).'_'.strtolower($firstName).'@gmail.com');
+        $user->setActivate(!(mt_rand(1,4) === 4));
+
+        return $user;
     }
 
     public function load(ObjectManager $manager): void
     {
-
         ###
         #
         # INSERTION de l'admin avec mot de passe admin
@@ -51,39 +71,50 @@ class AppFixtures extends Fixture
         $pwdHash = $this->hasher->hashPassword($user, 'admin');
         // passage du mot de passe crypté
         $user->setPassword($pwdHash);
+        $user->setFullname('Coucou Pomme');
+        $user->setUniqid(uniqid());
+        $user->setEmail("coucou_pomme@gmail.com");
+        $user->setActivate(true);
 
         // on va mettre dans une variable de type tableau
         // tous nos utilisateurs pour pouvoir leurs attribués
         // des Post ou des Comment
         $users[] = $user;
+        $usersRedac[] = $user;
 
         // on prépare notre requête pour la transaction
         $manager->persist($user);
 
         ###
         #
-        # INSERTION de 10 utilisateurs en ROLE_USER
+        # INSERTION de 24 utilisateurs en ROLE_USER
         # avec nom et mots de passe "re-tenables"
         #
         ###
-        for($i=1;$i<=10;$i++){
-            $user = new User();
-            // username de : user0 à user10
-            $user->setUsername('user'.$i);
-            // hashage du mot de passe de : user0 à user10
-            $pwdHash = $this->hasher->hashPassword($user, 'user'.$i);
-            $user->setPassword($pwdHash);
+        for($i=1;$i<=24;$i++){
+            $user = $this->createRandomUser($i);
             // on récupère les utilisateurs pour
             // les post et les comments
             $users[]=$user;
             $manager->persist($user);
         }
 
-        //dd($users);
-
-        // Appel de faker avec la locale en français
-        // de France
-        $faker = Faker::create('fr_FR');
+        ###
+        #
+        # INSERTION de 5 utilisateurs en ROLE_REDAC
+        # avec nom et mots de passe "re-tenables"
+        #
+        ###
+        for($i=25;$i<=29;$i++){
+            $user = $this->createRandomUser($i);
+            // on récupère les utilisateurs pour
+            // les post et les comments
+            $user->setRoles(['ROLE_REDAC']);
+            $user->setActivate(true);
+            $users[] = $user;
+            $usersRedac[] = $user;
+            $manager->persist($user);
+        }
 
         ###
         #   POST
@@ -91,30 +122,31 @@ class AppFixtures extends Fixture
         #
         ###
 
-        for($i=1;$i<=100;$i++){
+        for($i=1;$i<=160;$i++){
             $post = new Post();
             // on prend une clef d'un User
             // créé au-dessus
-            $keyUser = array_rand($users);
+            $keyUser = array_rand($usersRedac);
             // on ajoute l'utilisateur
             // à ce post
-            $post->setUser($users[$keyUser]);
-            // date de création (il y a 30 jours)
-            $post->setPostDateCreated(new \dateTime('now - 30 days'));
+            $post->setUser($usersRedac[$keyUser]);
+            $createdDate = $this->faker->dateTimeBetween('-6 month');
+            $post->setPostDateCreated($createdDate);
             // Au hasard, on choisit s'il est publié ou non (+-3 sur 4)
-            $publish = mt_rand(0,3) <3;
+            $publish = mt_rand(0,3) < 3;
             $post->setPostPublished($publish);
-            if($publish) {
-                $day = mt_rand(3, 25);
-                $post->setPostDatePublished(new \dateTime('now - ' . $day . ' days'));
-            }
+            if($publish)
+                $post->setPostDatePublished($this->faker->dateTimeBetween($createdDate, 'now'));
+            
             // création d'un titre entre 2 et 5 mots
-            $title = $faker->words(mt_rand(2,5),true);
+            $title = $this->faker->words(mt_rand(2,5),true);
             // utilisation du titre avec le premier mot en majuscule
             $post->setPostTitle(ucfirst($title));
 
+            $post->setPostSlug($this->slugger->slug(strtolower($post->getPostTitle())));
+
             // création d'un texte entre 3 et 6 paragraphes
-            $texte = $faker->paragraphs(mt_rand(3,6), true);
+            $texte = $this->faker->paragraphs(mt_rand(3,6), true);
             $post->setPostDescription($texte);
 
             // on va garder les posts
@@ -135,23 +167,24 @@ class AppFixtures extends Fixture
         for($i=1;$i<=6;$i++){
             $section = new Section();
             // création d'un titre entre 2 et 5 mots
-            $title = $faker->words(mt_rand(2,5),true);
+            $title = $this->faker->words(mt_rand(2,5),true);
             $section->setSectionTitle(ucfirst($title));
+            $section->setSectionSlug($this->slugger->slug(strtolower($section->getSectionTitle())));
             // création d'une description de maximum 500 caractères
             // en pseudo français di fr_FR
-            $description = $faker->realText(mt_rand(150,500));
+            $description = $this->faker->realText(mt_rand(150,500));
             $section->setSectionDescription($description);
 
             // On va mettre dans une variable le nombre total d'articles
             $nbArticles = count($posts);
             // on récupère un tableau d'id au hasard (on commence
             // à car si on obtient un seul id, c'est un int et pas un array
-            $articleID = array_rand($posts, mt_rand(2,$nbArticles));
+            $articleID = array_rand($posts, mt_rand(2,40));
 
             // Attribution des articles
             // à la section en cours
             foreach($articleID as $id){
-                // entre 1 et 100 articles
+                // entre 2 et 40 articles
                 $section->addPost($posts[$id]);
             }
 
@@ -185,7 +218,7 @@ class AppFixtures extends Fixture
             $hours = mt_rand(1,48);
             $comment->setCommentDateCreated(new \dateTime('now - ' . $hours . ' hours'));
             // entre 150 et 1000 caractères
-            $comment->setCommentMessage($faker->realText(mt_rand(150,1000)));
+            $comment->setCommentMessage($this->faker->realText(mt_rand(150,1000)));
             // Au hasard, on choisit s'il est publié ou non (+-3 sur 4)
             $publish = mt_rand(0,3) <3;
             $comment->setCommentPublished($publish);
@@ -202,7 +235,7 @@ class AppFixtures extends Fixture
         for($i=1;$i<=45;$i++){
             $tag = new Tag();
             # création d'un slug par Faker
-            $tag->setTagName($faker->slug(3,true));
+            $tag->setTagName($this->faker->slug(3));
             # on compte le nombre d'articles
             $nbArticles = count($posts);
             # on en prend 1/5

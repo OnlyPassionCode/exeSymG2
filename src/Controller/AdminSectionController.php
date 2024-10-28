@@ -18,7 +18,6 @@ final class AdminSectionController extends AbstractController
     public function index(SectionRepository $sectionRepository): Response
     {
         return $this->render('admin_section/index.html.twig', [
-            'sections' => $sectionRepository->findAll(),
             'title' => "CRUD Sections",
         ]);
     }

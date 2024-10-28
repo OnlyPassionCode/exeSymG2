@@ -20,7 +20,7 @@ class GlobalVariableSubscriber implements EventSubscriberInterface
     }
 
     private function addSectionGlobalTwig(){
-        $sections = $this->sectionRepository->findAll();
+        $sections = array_reverse($this->sectionRepository->findAll());
         $this->twig->addGlobal('sections', $sections);
     }
 

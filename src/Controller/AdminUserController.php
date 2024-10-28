@@ -19,7 +19,7 @@ final class AdminUserController extends AbstractController{
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('admin_user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => array_reverse($userRepository->findAll()),
             'title' => "CRUD Users",
         ]);
     }
