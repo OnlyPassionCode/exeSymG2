@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Post;
 use App\Entity\Section;
+use App\Entity\User;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
@@ -30,7 +31,7 @@ class HomeController extends AbstractController
         ]);
     }
     
-    #[Route('/section/{id}', name: 'section')]
+    #[Route('/section/{sectionSlug}', name: 'section')]
     public function section(Section $section, PostRepository $postRepository, AuthenticationUtils $authenticationUtils): Response
     {
         // last username entered by the user
@@ -44,7 +45,21 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/post/{id}', name: 'post')]
+    #[Route('/user/{id}', name: 'user')]
+    public function user(User $user, PostRepository $postRepository, AuthenticationUtils $authenticationUtils): Response
+    {
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+        return $this->render('home/user.html.twig', [
+            'title' => 'Utilisateur '.$user->getFullname() ?? $user->getUsername(),
+            'user' => $user,
+            'last_username' => $lastUsername,
+            'active' => 'Section',
+            'posts' => $postRepository->findPublishedPostsByUser($user->getId()),
+        ]);
+    }
+
+    #[Route('/post/{postSlug}', name: 'post')]
     public function post(Request $request, Post $post, CommentRepository $commentRepository, AuthenticationUtils $authenticationUtils, EntityManagerInterface $entityManager): Response
     {
         if(!$post->isPostPublished()){

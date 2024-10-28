@@ -1,11 +1,11 @@
 {% extends "layouts/public.html.twig" %}
-{% block title %}Section {{ section }}{% endblock %}
+{% block title %}Utilisateur {{ user }}{% endblock %}
 {% block hero %}
     {% embed "includes/hero.html.twig" %}
         {% block bread %}
             <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ path('app_home') }}#sections">Section</a></li>
-            <li class="breadcrumb-item active text-primary">{{ section }}</li>
+            <li class="breadcrumb-item active text-primary">User</li>
+            <li class="breadcrumb-item active text-primary">{{ user }}</li>
         {% endblock %}
     {% endembed %}
 {% endblock %}
@@ -14,9 +14,9 @@
     <div class="container-fluid blog py-5">
         <div class="container py-5">
             <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                <h4 class="text-primary">Section</h4>
-                <h1 class="display-5 mb-4">{{ section }}</h1>
-                <p class="mb-0">{{ section.sectionDescription }}</p>
+                <h4 class="text-primary">Post publié par :</h4>
+                <h1 class="display-5 mb-4">{{ user }}</h1>
+                <p class="mb-0">{{ user.username }}</p>
             </div>
             <div class="owl-carousel blog-carousel wow fadeInUp" data-wow-delay="0.2s">
                 {% for post in posts %}
@@ -32,7 +32,7 @@
                         <div class="d-flex align-items-center">
                             <img src="{{ asset('img/pomme.jpg') }}" class="img-fluid rounded-circle" style="width: 60px; height: 60px;" alt="">
                             <div class="ms-3">
-                                <h5><a href="{{ path('user', {id: post.user.id}) }}">{{ post.user }}</a></h5>
+                                <h5>{{ post.user }}</h5>
                                 <p class="mb-0">{{ post.postDatePublished|date("F j, Y") }}</p>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                 {% endfor %}
             </div>
             {% if posts|length == 0 %}
-                <h2 class="text-center">Aucun post pour cette section 😣</h2>
+                <h2 class="text-center">Aucun post pour cette utilisateur 😣</h2>
             {% endif %}
             
         </div>

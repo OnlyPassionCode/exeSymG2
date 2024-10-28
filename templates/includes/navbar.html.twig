@@ -16,7 +16,7 @@
                     </a>
                     <div class="dropdown-menu m-0">
                         {% for section in sections %}
-                            <a href="{{ path('section', {id:section.id}) }}" class="dropdown-item">{{ section }}</a>
+                            <a href="{{ path('section', {sectionSlug:section.sectionSlug}) }}" class="dropdown-item">{{ section }}</a>
                         {% endfor %}
                     </div>
                 </div>

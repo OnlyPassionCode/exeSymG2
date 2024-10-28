@@ -29,6 +29,17 @@ class PostRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findPublishedPostsByUser(int $userId)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.user', 'u')
+            ->where('u.id = :userId')
+            ->andWhere('p.postPublished = true')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
+
 
 
     //    /**

@@ -9,7 +9,7 @@
         {% endblock %}
     {% endembed %}
 {% endblock %}
-{% block body %}.
+{% block body %}
     <!-- Blog Start -->
     <div class="container-fluid blog pb-5">
         <div class="container py-5">
@@ -18,7 +18,7 @@
                 <div class="d-flex align-items-center my-5">
                     <img src="{{ asset('img/pomme.jpg') }}" class="img-fluid rounded-circle" style="width: 60px; height: 60px;" alt="">
                     <div class="ms-3">
-                        <h5>{{ post.user.fullname ?? post.user.username }}</h5>
+                        <h5>{{ post.user }}</h5>
                         <p class="mb-0">{{ post.postDateCreated|date("F j, Y \à H:i:s") }}</p>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                     <div class="d-flex align-items-center">
                         <img src="{{ asset('img/pomme.jpg') }}" class="img-fluid rounded-circle" style="width: 60px; height: 60px;" alt="">
                         <div class="ms-3">
-                            <h5>{{ comment.user.fullname ?? comment.user.username }}</h5>
+                            <h5>{{ comment.user }}</h5>
                             <p class="mb-0">{{ comment.commentDateCreated|date("F j, Y \à H:i:s") }}</p>
                         </div>
                     </div>

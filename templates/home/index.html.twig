@@ -16,9 +16,9 @@
                             <img src="{{ asset('img/service-1.jpg') }}" class="img-fluid rounded-top w-100" alt="Image">
                         </div>
                         <div class="rounded-bottom p-4">
-                            <a href="{{ path('section', {id: section.id}) }}" class="h4 d-inline-block mb-4"> {{ section }}</a>
+                            <a href="{{ path('section', {sectionSlug: section.sectionSlug}) }}" class="h4 d-inline-block mb-4"> {{ section }}</a>
                             <p class="mb-4">{{ section.sectionDescription|slice(0, 250) ~ '...' }}</p>
-                            <a class="btn btn-primary rounded-pill py-2 px-4" href="{{ path('section', {id: section.id}) }}">Voir la section</a>
+                            <a class="btn btn-primary rounded-pill py-2 px-4" href="{{ path('section', {sectionSlug: section.sectionSlug}) }}">Voir la section</a>
                         </div>
                     </div>
                 </div>
