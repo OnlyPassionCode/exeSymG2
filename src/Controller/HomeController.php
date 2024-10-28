@@ -19,7 +19,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(AuthenticationUtils $authenticationUtils): Response
+    public function index(AuthenticationUtils $authenticationUtils, PostRepository $postRepository): Response
     {
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -27,6 +27,7 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'last_username' => $lastUsername,
             'active' => 'Accueil',
+            'posts' => $postRepository->findTenLastPublishedPosts(),
             'title' => 'Accueil'
         ]);
     }

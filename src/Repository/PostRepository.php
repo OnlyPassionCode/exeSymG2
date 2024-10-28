@@ -40,6 +40,16 @@ class PostRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findTenLastPublishedPosts()
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.postPublished = true')
+            ->orderBy('p.postDateCreated', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
 
 
     //    /**

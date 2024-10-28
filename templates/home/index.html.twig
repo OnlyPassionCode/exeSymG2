@@ -4,25 +4,38 @@
     <div class="container-fluid service pb-5 mt-5">
         <div class="container pb-5" id="sections">
             <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                <h4 class="text-primary">Nos sections</h4>
-                <h1 class="display-5 mb-4">Découvrez nos sections avec leurs posts</h1>
-                <p class="mb-0">Vous y trouverez les sections créent par notre équipe accompagné de leurs posts. <br>Chaque post possède des commentaires laissé par nos cher(e)s client(e)s.</p>
+                <h4 class="text-primary">Nos derniers posts</h4>
+                <h1 class="display-5 mb-4">Découvrez nos 10 derniers posts</h1>
+                <p class="mb-0">Vous y trouverez les posts créent par notre équipe. <br>Chaque post possède des commentaires laissé par nos cher(e)s client(e)s.</p>
             </div>
             <div class="row g-4">
-                {% for section in sections %}
+                {%- for post in posts -%}
                     <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.2s">
                     <div class="service-item">
                         <div class="service-img">
                             <img src="{{ asset('img/service-1.jpg') }}" class="img-fluid rounded-top w-100" alt="Image">
                         </div>
                         <div class="rounded-bottom p-4">
-                            <a href="{{ path('section', {sectionSlug: section.sectionSlug}) }}" class="h4 d-inline-block mb-4"> {{ section }}</a>
-                            <p class="mb-4">{{ section.sectionDescription|slice(0, 250) ~ '...' }}</p>
-                            <a class="btn btn-primary rounded-pill py-2 px-4" href="{{ path('section', {sectionSlug: section.sectionSlug}) }}">Voir la section</a>
+                            <a href="{{ path('post', {postSlug: post.postSlug}) }}" class="h4 d-inline-block mb-0"> {{ post }}</a>
+                            <hr>
+                            <p>Section{{post.sections|length > 1 ? 's' : ''}} :&nbsp;
+                            {%- for section in post.sections -%}
+                                <a href="{{ path('section', {sectionSlug: section.sectionSlug}) }}">{{ section }}</a>&nbsp;{{ loop.last ? '' : '| ' }}
+                            {%- endfor -%}
+                            <hr>
+                            <div class="d-flex align-items-center mb-4">
+                                <img src="{{ asset('img/pomme.jpg') }}" class="img-fluid rounded-circle" style="width: 60px; height: 60px;" alt="">
+                                <div class="ms-3">
+                                    <h5>{{ post.user }}</h5>
+                                    <p class="mb-0">{{ post.postDateCreated|date("F j, Y \à H:i:s") }}</p>
+                                </div>
+                            </div>
+                            <p class="mb-4">{{ post.postDescription|slice(0, 250) ~ '...' }}</p>
+                            <a class="btn btn-primary rounded-pill py-2 px-4" href="{{ path('post', {postSlug: post.postSlug}) }}">Voir le post</a>
                         </div>
                     </div>
                 </div>
-                {% endfor %}
+                {%- endfor -%}
             </div>
         </div>
     </div>

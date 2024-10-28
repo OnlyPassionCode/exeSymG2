@@ -28,14 +28,14 @@
                             </div>
                         </div>
                         <a href="{{ path('post', {postSlug:post.postSlug}) }}" class="h4 d-inline-block mb-3">{{ post }}</a>
-                        <p class="mb-4">{{ post.postDescription|slice(0, 250) ~ '...' }}</p>
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center mb-4">
                             <img src="{{ asset('img/pomme.jpg') }}" class="img-fluid rounded-circle" style="width: 60px; height: 60px;" alt="">
                             <div class="ms-3">
                                 <h5><a href="{{ path('user', {id: post.user.id}) }}">{{ post.user }}</a></h5>
                                 <p class="mb-0">{{ post.postDatePublished|date("F j, Y") }}</p>
                             </div>
                         </div>
+                        <p class="mb-4">{{ post.postDescription|slice(0, 250) ~ '...' }}</p>
                     </div>
                 {% endfor %}
             </div>
