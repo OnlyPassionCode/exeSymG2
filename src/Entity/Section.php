@@ -20,12 +20,15 @@ class Section
     )]
     private ?int $id = null;
 
-    #[ORM\Column(length: 160)]
+    #[ORM\Column(length: 100)]
     private ?string $sectionTitle = null;
 
-    #[ORM\Column(length: 600, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $sectionDescription = null;
 
+    #[ORM\Column(length: 105)]
+    private ?string $sectionSlug = null;
+    
     /**
      * @var Collection<int, Post>
      */
@@ -96,5 +99,17 @@ class Section
     public function __toString(): string
     {
         return $this->getSectionTitle();
+    }
+
+    public function getSectionSlug(): ?string
+    {
+        return $this->sectionSlug;
+    }
+
+    public function setSectionSlug(string $sectionSlug): static
+    {
+        $this->sectionSlug = $sectionSlug;
+
+        return $this;
     }
 }

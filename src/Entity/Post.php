@@ -14,7 +14,6 @@ class Post
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(
-        # on veut que l'ID soit 'unsigned'
         options:
         [
             'unsigned' => true,
@@ -67,6 +66,9 @@ class Post
     #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\Column(length: 162)]
+    private ?string $postSlug = null;
 
     public function __construct()
     {
@@ -232,5 +234,17 @@ class Post
 
     public function __toString(): string{
         return $this->getPostTitle();
+    }
+
+    public function getPostSlug(): ?string
+    {
+        return $this->postSlug;
+    }
+
+    public function setPostSlug(string $postSlug): static
+    {
+        $this->postSlug = $postSlug;
+
+        return $this;
     }
 }
