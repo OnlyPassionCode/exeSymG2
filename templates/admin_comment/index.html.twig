@@ -28,7 +28,7 @@
         {% for comment in comments %}
             <tr>
                 <td>{{ comment.id }}</td>
-                <td {{ 'ROLE_ADMIN' in comment.user.roles ? 'class="text-danger"' : '' }}>{{ comment.user.username }}</td>
+                <td><a {{ 'ROLE_ADMIN' in comment.user.roles ? 'class="text-danger"' : '' }} href="{{ path('app_admin_user_show', {id: comment.user.id}) }}">{{ comment.user.username }}</a></td>
                 <td style="max-width: 150px"><a href="{{ path('app_admin_post_show', {id: comment.post.id}) }}">{{ comment.post.postTitle }}</a></td>
                 <td style="max-width: 450px">{{ comment.commentMessage|slice(0,175) ~ '...' }}</td>
                 <td>{{ comment.commentDateCreated ? comment.commentDateCreated|date('Y-m-d H:i:s') : '' }}</td>

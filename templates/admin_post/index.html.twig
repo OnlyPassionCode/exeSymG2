@@ -28,7 +28,7 @@
         {% for post in posts %}
             <tr>
                 <td>{{ post.id }}</td>
-                <td {{ 'ROLE_ADMIN' in post.user.roles ? 'class="text-danger"' : '' }}>{{ post.user.username }}</td>
+                <td><a {{ 'ROLE_ADMIN' in post.user.roles ? 'class="text-danger"' : '' }} href="{{ path('app_admin_user_show', {id: post.user.id}) }}">{{ post.user.username }}</a></td>
                 <td>{{ post }}</td>
                 <td>{{ post.postDescription|slice(0,175) ~ '...' }}</td>
                 <td>{{ post.postDateCreated ? post.postDateCreated|date('d-m-Y H:i:s') : '' }}</td>

@@ -32,7 +32,7 @@
                         <div class="d-flex align-items-center">
                             <img src="{{ asset('img/pomme.jpg') }}" class="img-fluid rounded-circle" style="width: 60px; height: 60px;" alt="">
                             <div class="ms-3">
-                                <h5>{{ post.user.username }}</h5>
+                                <h5>{{ post.user.fullname ?? post.user.username }}</h5>
                                 <p class="mb-0">{{ post.postDatePublished|date("F j, Y") }}</p>
                             </div>
                         </div>
