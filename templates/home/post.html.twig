@@ -48,7 +48,7 @@
                     <div class="d-flex align-items-center">
                         <img src="{{ asset('img/pomme.jpg') }}" class="img-fluid rounded-circle" style="width: 60px; height: 60px;" alt="">
                         <div class="ms-3">
-                            <h5>{{ comment.user }}</h5>
+                            <a href="{{ path('user', {id: comment.user.id}) }}"><h5 class="username-hover">{{ comment.user }}</h5></a>
                             <p class="mb-0">{{ comment.commentDateCreated|date("F j, Y \à H:i:s") }}</p>
                         </div>
                     </div>

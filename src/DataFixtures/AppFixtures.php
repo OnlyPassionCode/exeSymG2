@@ -163,12 +163,11 @@ class AppFixtures extends Fixture
         # avec des postes au hasard
         #
         ###
-
-        for($i=1;$i<=6;$i++){
+        $categories = ["Actualités & Tendances", "Technologie & Innovation", "Style de Vie & Bien-être", "Entrepreneuriat & Carrière", "Culture & Divertissement", "Voyages & Découvertes"];
+        for($i=0;$i<=5;$i++){
             $section = new Section();
             // création d'un titre entre 2 et 5 mots
-            $title = $this->faker->words(mt_rand(2,5),true);
-            $section->setSectionTitle(ucfirst($title));
+            $section->setSectionTitle($categories[$i]);
             $section->setSectionSlug($this->slugger->slug(strtolower($section->getSectionTitle())));
             // création d'une description de maximum 500 caractères
             // en pseudo français di fr_FR
