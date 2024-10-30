@@ -908,5 +908,10 @@
     background: var(--bs-dark);
 }
 /*** copyright end ***/
-
+.username-hover{
+    transition: .5s;
+}
+.username-hover:hover{
+    color: #00d084;
+}
 

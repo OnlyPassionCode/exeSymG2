@@ -1,0 +1,63 @@
+{% extends "layouts/public.html.twig" %}
+{% block body %}
+    <div class="container-fluid service pb-5 mt-5" id="activate">
+        <div class="container pb-0" id="sections">
+            <div class="text-center mx-auto pb-0 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                {% if expires is defined %}
+                    <h4 class="text-danger">Ooooops !</h4>
+                    <h1 class="display-5 mb-4">Votre token a expiré...</h1>
+                    <div>
+                        <a class="btn btn-primary rounded-pill py-2 px-4" href="{{ path('app_send') }}">Cliquez ici pour en recevoir un autre</a>
+                    </div>
+                {% elseif lapsTime is defined %}
+                    <h4 class="text-danger">Ooooops !</h4>
+                    <h1 class="display-5 mb-4">Trop de demande de validation</h1>
+                    <div class="bg-danger border rounded p-5">
+                        <p class="text-white m-0">Veuillez patienter avant de redemander un mail de validation ( {{ 10 - (lapsTime / 60)|round }} minutes )</p>
+                    </div>
+                {% elseif lost is defined %}
+                    <h4 class="text-primary">Validation</h4>
+                    <h1 class="display-5 mb-4">Vous voulez un mail de validation ?</h1>
+                    <div>
+                        <a class="btn btn-primary rounded-pill py-2 px-4" href="{{ path('app_send') }}">Cliquez ici pour recevoir un mail de validation</a>
+                    </div>
+                {% elseif token is defined %}
+                    <h4 class="text-danger">Ooooops !</h4>
+                    <h1 class="display-5 mb-4">Ce token semble ne plus exister...</h1>
+                    <div>
+                        <a class="btn btn-primary rounded-pill py-2 px-4" href="{{ path('app_send') }}">Cliquez ici pour en recevoir un autre</a>
+                    </div>
+                {% elseif signature is defined %}
+                    <h4 class="text-danger">Ooooops !</h4>
+                    <h1 class="display-5 mb-4">Il semble que le lien ne soit pas correct...</h1>
+                    <div class="bg-danger border rounded p-5">
+                        <p class="text-white m-0">Vous avez reçu dans vos mails un mail de validation avec un lien.</p>
+                        {% if app.user %}
+                        <p class="text-white m-0">L'email auquel le lien de validation a été envoyé : {{ app.user.email }}</p>
+                        {% endif %}
+                    </div>
+                {% elseif send is defined %}
+                    {# I assume that the user is connected here #}
+                    <h4 class="text-primary">Super</h4>
+                    <h1 class="display-5 mb-4">Un nouveau mail de validation a été envoyé</h1>
+                    <div class="bg-primary border rounded p-5">
+                        <p class="text-white m-0">Un email de validation a été envoyé a votre adresse email : <strong>{{app.user.email}}</strong></p>
+                    </div>
+                {% else %}
+                    <h4 class="text-primary">Bravo !</h4>
+                    <h1 class="display-5 mb-4">Votre compte a bien été activé !</h1>
+                    <div>
+                        <a class="btn btn-primary rounded-pill py-2 px-4" href="{{ path('app_home') }}">Parcourir l'univers de OnlyPassionCode</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+    <script>
+        document.getElementById('activate').scrollIntoView({ behavior: "smooth", block: "nearest"});
+    </script>
+{% endblock %}

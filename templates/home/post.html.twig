@@ -18,7 +18,7 @@
                 <div class="d-flex align-items-center my-5">
                     <img src="{{ asset('img/pomme.jpg') }}" class="img-fluid rounded-circle" style="width: 60px; height: 60px;" alt="">
                     <div class="ms-3">
-                        <h5>{{ post.user }}</h5>
+                        <a href="{{ path('user', {id: post.user.id}) }}"><h5 class="username-hover">{{ post.user }}</h5></a>
                         <p class="mb-0">{{ post.postDateCreated|date("F j, Y \à H:i:s") }}</p>
                     </div>
                 </div>
@@ -67,6 +67,13 @@
     <script>
         document.querySelector('.textarea-wrapper.disable .overlay')?.addEventListener('click', function(e){
             new bootstrap.Modal(document.getElementById('modalConnect')).show();
+        });
+    </script>
+    {% endif %}
+    {% if app.user and not app.user.activate %}
+    <script>
+        document.querySelector('.textarea-wrapper.disable .overlay')?.addEventListener('click', function(e){
+            window.location.href = "{{ path('app_send') }}";
         });
     </script>
     {% endif %}
