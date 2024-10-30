@@ -6,11 +6,10 @@ RUN docker-php-ext-install pdo pdo_mysql
 # Installer APCu via PECL
 RUN apk add --no-cache $PHPIZE_DEPS \
     && pecl install apcu \
-    && docker-php-ext-enable apcu \
-    && apk del $PHPIZE_DEPS
+    && docker-php-ext-enable apcu
 
 # Installer Xdebug avec autoconf et linux-headers
-RUN apk add --no-cache $PHPIZE_DEPS autoconf linux-headers \
+RUN apk add --no-cache autoconf linux-headers \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && apk del $PHPIZE_DEPS autoconf linux-headers
