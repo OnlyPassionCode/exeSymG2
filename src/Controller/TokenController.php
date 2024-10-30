@@ -95,11 +95,20 @@ class TokenController extends AbstractController
     #[Route('/verify/send', name: 'app_send')]
     public function send(): Response
     {
+        // last username entered by the user
+        $lastUsername = $this->authenticationUtils->getLastUsername();
         /**
          * @var User
          */
         $user = $this->getUser();
-        if($user === null || $user->isActivate())
+        if($user === null)
+            return $this->render('token/index.html.twig', [
+                'title' => 'Token',
+                'connect' => true,
+                'last_username' => $lastUsername,
+            ]);
+        
+        if($user->isActivate())
             return $this->redirectToRoute('app_home');
 
         /**
@@ -109,8 +118,6 @@ class TokenController extends AbstractController
             'user' => $user
         ]);
 
-        // last username entered by the user
-        $lastUsername = $this->authenticationUtils->getLastUsername();
 
         if($userActivationToken !== null){
             $actualTime = time();
