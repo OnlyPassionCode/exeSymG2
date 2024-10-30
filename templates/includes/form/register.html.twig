@@ -1,4 +1,7 @@
 {{ form_start(registerForm) }}
 {{ form_widget(registerForm) }}
-<button class="btn btn-primary">{{ button_label|default('Register') }}</button>
+<div class="row justify-content-between justify-content-md-end">
+<a href="#" data-bs-toggle="modal" data-bs-target="#modalConnect" class="btn btn-light col-5 col-md-4">Me connecter</a>
+<button class="btn btn-primary col-5 col-md-4 ms-md-4">{{ button_label|default('Register') }}</button>
+</div>
 {{ form_end(registerForm) }}

@@ -3,14 +3,27 @@
     <!-- Services Start -->
     <div class="container-fluid service pb-5 mt-5" id="register">
         <div class="container pb-5" id="sections">
+        {% if registered is defined %}
+            <div class="text-center mx-auto pb-0 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                <h4 class="text-primary">Félicitation !</h4>
+                <h1 class="display-5 mb-4">Votre compte a bien été crée !</h1>
+                <div class="bg-success border rounded p-5">
+                    <p class="text-white m-0">Un email de validation a été envoyé a votre adresse email : <strong>{{app.user.email}}</strong></p>
+                    <p class="text-white m-0">Veuillez cliquer sur le lien de validation afin d'activer votre compte.</p>
+                </div>
+            </div>
+        {% else %}
             <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
                 <h4 class="text-primary">Inscription</h4>
                 <h1 class="display-5 mb-4">Rejoignez-nous en vous inscrivant</h1>
                 <p class="mb-0">Vos données sont sécurisé et ne seront en aucun cas partagé.</p>
             </div>
-            <div class="row g-4">
-                {% include "includes/form/register.html.twig" with {'button_label': 'M\'inscrire'} %}
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-8 col-xl-5">
+                    {% include "includes/form/register.html.twig" with {'button_label': 'M\'inscrire'} %}
+                </div>
             </div>
+        {% endif %}
         </div>
     </div>
     <!-- Services End -->

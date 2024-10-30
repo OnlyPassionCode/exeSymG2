@@ -47,7 +47,7 @@ class AppFixtures extends Fixture
         $lastName = $this->faker->lastName();
         $firstName = $this->faker->firstName();
         $user->setFullname("$lastName $firstName");
-        $user->setUniqid(uniqid());
+        $user->setUniqid(uniqid(more_entropy: true));
         $user->setEmail(strtolower($lastName).'_'.strtolower($firstName).'@gmail.com');
         $user->setActivate(!(mt_rand(1,4) === 4));
 
@@ -72,7 +72,7 @@ class AppFixtures extends Fixture
         // passage du mot de passe crypté
         $user->setPassword($pwdHash);
         $user->setFullname('Coucou Pomme');
-        $user->setUniqid(uniqid());
+        $user->setUniqid(uniqid(more_entropy: true));
         $user->setEmail("coucou_pomme@gmail.com");
         $user->setActivate(true);
 

@@ -30,6 +30,12 @@ class GlobalVariableSubscriber implements EventSubscriberInterface
         return true;
     }
 
+    private function registerController(array $controller, Request $request): bool{
+        if(get_class($controller[0]) !== "App\\Controller\\RegisterController") return false;
+        $this->addSectionGlobalTwig();
+        return true;
+    }
+
     private function adminSectionController(array $controller, Request $request): bool{
         if(get_class($controller[0]) !== "App\\Controller\\AdminSectionController") return false;
         $this->addSectionGlobalTwig();
@@ -72,6 +78,7 @@ class GlobalVariableSubscriber implements EventSubscriberInterface
         if(is_array($controller)){
             $request = $event->getRequest();
             if($this->homeController($controller, $request)) return;
+            if($this->registerController($controller, $request)) return;
             if($this->adminSectionController($controller, $request)) return;
             if($this->adminPostController($controller, $request)) return;
             if($this->adminTagController($controller, $request)) return;
