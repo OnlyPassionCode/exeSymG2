@@ -1,0 +1,24 @@
+{% extends "layouts/public.html.twig" %}
+{% block body %}
+    <!-- Services Start -->
+    <div class="container-fluid service pb-5 mt-5" id="register">
+        <div class="container pb-5" id="sections">
+            <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                <h4 class="text-primary">Inscription</h4>
+                <h1 class="display-5 mb-4">Rejoignez-nous en vous inscrivant</h1>
+                <p class="mb-0">Vos données sont sécurisé et ne seront en aucun cas partagé.</p>
+            </div>
+            <div class="row g-4">
+                {% include "includes/form/register.html.twig" with {'button_label': 'M\'inscrire'} %}
+            </div>
+        </div>
+    </div>
+    <!-- Services End -->
+{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+    <script>
+        document.getElementById('register').scrollIntoView({ behavior: "smooth", block: "nearest"});
+    </script>
+{% endblock %}

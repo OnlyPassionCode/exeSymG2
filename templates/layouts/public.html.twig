@@ -34,7 +34,7 @@
         {% set error = app.session.get('loginError') %}
         {% include "includes/spinner.html.twig" %}
         {% if not app.user %}
-            {% include "includes/modal.connect.html.twig" %}
+            {% include "includes/modal/modal.connect.html.twig" %}
         {% endif %}
         {% include "includes/topbar.html.twig" %}
         {% include "includes/navbar.html.twig" %}

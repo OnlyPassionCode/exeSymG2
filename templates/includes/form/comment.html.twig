@@ -1,14 +1,15 @@
-{{ form_start(form) }}
-    {{ form_label(form.commentMessage) }}
-    <div class="textarea-wrapper mb-3 {{ app.user ? '' : 'disable' }}">
-    {% if app.user %}
-        {{ form_widget(form.commentMessage) }}
+{% set isConnectedAndActivate = app.user and app.user.activate %}
+{{ form_start(commentForm) }}
+    {{ form_label(commentForm.commentMessage) }}
+    <div class="textarea-wrapper mb-3 {{ isConnectedAndActivate ? '' : 'disable' }}">
+    {% if isConnectedAndActivate %}
+        {{ form_widget(commentForm.commentMessage) }}
     {% else %}
-        {{ form_widget(form.commentMessage, {'attr': {'disabled': ''}}) }}
+        {{ form_widget(commentForm.commentMessage, {'attr': {'disabled': ''}}) }}
     {% endif %}
     
-        <div class="overlay text-primary fw-bold">Veuillez vous connecter pour commenter</div>
+        <div class="overlay text-primary fw-bold">{{ app.user and not app.user.activate ? 'Activez votre compte afin de pouvoir commenter.' : 'Veuillez vous connecter pour commenter' }}</div>
     </div>
-    {{ form_widget(form) }}
-    <button class="btn btn-primary" {{ app.user ? '' : 'disabled' }}>{{ button_label|default('Submit') }}</button>
-{{ form_end(form) }}
+    {{ form_widget(commentForm) }}
+    <button class="btn btn-primary" {{ isConnectedAndActivate ? '' : 'disabled' }}>{{ button_label|default('Submit') }}</button>
+{{ form_end(commentForm) }}
