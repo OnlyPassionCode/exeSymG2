@@ -1,4 +1,5 @@
+{% set isUpdate = button_label is defined and button_label == "Modifier" %}
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-primary" {{ isUpdate ? 'onclick="return alert(\'Êtes-vous sûre de vouloir modifier ce post ? Si oui il devra être revalider par un administrateur !\')"' : ''}}>{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

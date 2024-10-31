@@ -46,6 +46,8 @@ final class RedacPostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $post->setPostPublished(false);
+            $post->setPostDatePublished(null);
             $entityManager->flush();
             return $this->redirectToRoute('app_redac', [], Response::HTTP_SEE_OTHER);
         }

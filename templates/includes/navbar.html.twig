@@ -9,6 +9,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
+                {% if app.user %}
+                <div class="d-block d-lg-none nav-item dropdown">
+                    <a href="#" class="nav-link" data-bs-toggle="dropdown">
+                        <span class="dropdown-toggle text-primary fw-bold">Mon compte</span>
+                    </a>
+                    <div class="dropdown-menu m-0">
+                        <a href="{{ path('app_logout') }}" class="dropdown-item">Me déconnecter</a>
+                    </div>
+                </div>
+                {% endif %}
                 <a href="{{ path('app_home') }}" class="nav-item nav-link {{ active is defined and active == "Accueil" ? 'active' : '' }}">Accueil</a>
                 <div class="nav-item dropdown">
                     <a href="{{ path('app_home') }}#sections" class="nav-link {{ active is defined and active == "Section" ? 'active' : '' }}" data-bs-toggle="dropdown">
