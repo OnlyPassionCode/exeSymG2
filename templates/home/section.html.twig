@@ -27,7 +27,13 @@
                                 <a href="{{ path('post', {postSlug:post.postSlug}) }}" class="btn">Voir le post</a>
                             </div>
                         </div>
-                        <a href="{{ path('post', {postSlug:post.postSlug}) }}" class="h4 d-inline-block mb-3">{{ post }}</a>
+                        <a href="{{ path('post', {postSlug:post.postSlug}) }}" class="h4 d-inline-block mb-0">{{ post }}</a>
+                        <hr>
+                            <p>Section{{post.sections|length > 1 ? 's' : ''}} :&nbsp;
+                            {%- for section in post.sections -%}
+                                <a href="{{ path('section', {sectionSlug: section.sectionSlug}) }}">{{ section }}</a>&nbsp;{{ loop.last ? '' : '| ' }}
+                            {%- endfor -%}
+                        <hr>
                         <div class="d-flex align-items-center mb-4">
                             <img src="{{ asset('img/pomme.jpg') }}" class="img-fluid rounded-circle" style="width: 60px; height: 60px;" alt="">
                             <div class="ms-3">
@@ -35,7 +41,7 @@
                                 <p class="mb-0">{{ post.postDatePublished|date("F j, Y") }}</p>
                             </div>
                         </div>
-                        <p class="mb-4">{{ post.postDescription|slice(0, 250) ~ '...' }}</p>
+                        <p class="mb-4">{{ post.postDescription|truncate(200) }}</p>
                     </div>
                 {% endfor %}
             </div>

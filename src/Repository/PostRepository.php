@@ -25,6 +25,7 @@ class PostRepository extends ServiceEntityRepository
             ->where('s.id = :sectionId')
             ->andWhere('p.postPublished = true')
             ->setParameter('sectionId', $sectionId)
+            ->orderBy('p.postDatePublished', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -36,6 +37,18 @@ class PostRepository extends ServiceEntityRepository
             ->where('u.id = :userId')
             ->andWhere('p.postPublished = true')
             ->setParameter('userId', $userId)
+            ->orderBy('p.postDateCreated', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllPostsByUser(int $userId)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.user', 'u')
+            ->where('u.id = :userId')
+            ->setParameter('userId', $userId)
+            ->orderBy('p.postDateCreated', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -44,7 +57,7 @@ class PostRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->where('p.postPublished = true')
-            ->orderBy('p.postDateCreated', 'DESC')
+            ->orderBy('p.postDatePublished', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult();

@@ -24,6 +24,9 @@
                 {% if not app.user %}
                     <a href="#" style="display: none;" id="connexionNavItem" class="nav-item nav-link text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#modalConnect"><span class="border border-primary rounded shadow p-2">Connexion</span></a>
                 {% endif %}
+                {% if is_granted('ROLE_REDAC') %}
+                    <a href="{{ path('app_redac') }}" class="nav-item nav-link text-white"><span class="bg-primary shadow p-2">Mes posts</span></a>
+                {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link" data-bs-toggle="dropdown">

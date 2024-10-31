@@ -42,6 +42,18 @@ class GlobalVariableSubscriber implements EventSubscriberInterface
         return true;
     }
 
+    private function redacController(array $controller, Request $request): bool{
+        if(get_class($controller[0]) !== "App\\Controller\\RedacController") return false;
+        $this->addSectionGlobalTwig();
+        return true;
+    }
+
+    private function redacPostController(array $controller, Request $request): bool{
+        if(get_class($controller[0]) !== "App\\Controller\\RedacPostController") return false;
+        $this->addSectionGlobalTwig();
+        return true;
+    }
+
     private function adminSectionController(array $controller, Request $request): bool{
         if(get_class($controller[0]) !== "App\\Controller\\AdminSectionController") return false;
         $this->addSectionGlobalTwig();
@@ -86,6 +98,8 @@ class GlobalVariableSubscriber implements EventSubscriberInterface
             if($this->homeController($controller, $request)) return;
             if($this->registerController($controller, $request)) return;
             if($this->tokenController($controller, $request)) return;
+            if($this->redacController($controller, $request)) return;
+            if($this->redacPostController($controller, $request)) return;
             if($this->adminSectionController($controller, $request)) return;
             if($this->adminPostController($controller, $request)) return;
             if($this->adminTagController($controller, $request)) return;

@@ -1,0 +1,19 @@
+{% extends 'layouts/public.html.twig' %}
+
+{% block title %}Nouveau Post{% endblock %}
+{% block hero %}
+    {% embed "includes/hero.html.twig" %}
+        {% block bread %}
+                <li class="breadcrumb-item"><a href="{{ path('app_redac') }}">Redac</a></li>
+                <li class="breadcrumb-item"><a href="#">CRUD Posts</a></li>
+                <li class="breadcrumb-item active text-primary">Nouveau</li>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+{% block body %}
+    <h1 class="text-primary my-5">Créer un Post</h1>
+
+    {{ include('redac_post/_form.html.twig', {button_label: 'Créer'}) }}
+
+    <a class="d-block my-5" href="{{ path('app_redac') }}">Retour à la liste</a>
+{% endblock %}

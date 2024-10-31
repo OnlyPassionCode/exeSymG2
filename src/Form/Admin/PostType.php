@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Admin;
 
 use App\Entity\Post;
 use App\Entity\Section;
 use App\Entity\Tag;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,6 +21,7 @@ class PostType extends AbstractType
         $builder
             ->add('postTitle')
             ->add('postDescription')
+            ->add('postPublished')
             ->add('sections', EntityType::class, [
                 'class' => Section::class,
                 'choice_label' => 'sectionTitle',
@@ -31,6 +33,10 @@ class PostType extends AbstractType
                 'choice_label' => 'tagName',
                 'multiple' => true,
                 'required' => false
+            ])
+            ->add('user', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'username',
             ])
             ->addEventListener(FormEvents::POST_SUBMIT, $this->postSubmit(...));
         ;
