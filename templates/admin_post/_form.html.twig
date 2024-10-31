@@ -1,8 +1,4 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <input type="hidden" name="action" value="edit">
-    <button class="btn btn-primary" onclick="this.form.action.value='edit';">{{ button_label|default('Save') }}</button>
-    {% if notDelete is not defined %}
-        <button class="btn btn-danger" onclick="this.form.action.value='delete';return confirm('Êtes-vous sûre de vouloir supprimer ce Post ?');"><i class="fas fa-trash"></i></button>
-    {% endif %}
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

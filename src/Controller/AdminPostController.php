@@ -86,13 +86,9 @@ final class AdminPostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($request->request->get('action') === 'delete'){
-                $entityManager->remove($post);
-            }else{
-                if($post->isPostPublished()){
-                    if($post->getPostDatePublished() === null) $post->setPostDatePublished(new \DateTime());
-                }else $post->setPostDatePublished(null);
-            }
+            if($post->isPostPublished()){
+                if($post->getPostDatePublished() === null) $post->setPostDatePublished(new \DateTime());
+            }else $post->setPostDatePublished(null);
 
             $entityManager->flush();
 
