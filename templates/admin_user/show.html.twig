@@ -31,6 +31,14 @@
                 <th>Password</th>
                 <td>{{ user.password }}</td>
             </tr>
+            <tr>
+                <th>Est-il activé ?</th>
+                <td>
+                    <div class="form-check form-switch">
+                        <input onclick="handleClickFormCheckInput(event)" data-id="{{ user.id }}" class="form-check-input" type="checkbox" role="switch" {{ user.activate ? 'checked' : '' }}>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
 
@@ -38,4 +46,8 @@
         <a class="btn btn-primary" href="{{ path('app_admin_user_edit', {'id': user.id}) }}">Editer</a>
         <a class="btn btn-light" href="{{ path('app_admin_user_index') }}">Retour à la liste</a>
     </div>
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    {% include 'includes/script/handleClickFormCheckInput.html.twig' with {'routeName': 'app_admin_user_edit_activate'} %}
 {% endblock %}
