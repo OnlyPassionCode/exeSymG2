@@ -43,7 +43,7 @@ class RegisterController extends AbstractController
             $this->entityManager->persist($user);
             $this->entityManager->flush();
             $security->login($user);
-            $this->sendMailValidation($user);
+            $this->sendMailValidation($user, $request->getSchemeAndHttpHost());
             return $this->render('home/register.html.twig', [
                 'title' => 'Compte crée',
                 'last_username' => $lastUsername,
@@ -59,12 +59,12 @@ class RegisterController extends AbstractController
         ]);
     }
 
-    private function sendMailValidation(User $user): void{
+    private function sendMailValidation(User $user, string $host): void{
         // Si aucun DSN dans les .env
         if(!isset($_ENV['MAILER_DSN'])){
             $user->setActivate(true);
             return;
         }
-        TokenController::sendEmailValidation($user, $this->entityManager, $this->mailer);
+        TokenController::sendEmailValidation($user, $this->entityManager, $this->mailer, $host);
     }
 }

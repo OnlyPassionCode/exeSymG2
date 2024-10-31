@@ -30,5 +30,17 @@ RUN docker-php-ext-install opcache \
     && echo "opcache.revalidate_freq=0" >> /usr/local/etc/php/conf.d/opcache.ini \
     && echo "opcache.validate_timestamps=1" >> /usr/local/etc/php/conf.d/opcache.ini
 
+RUN apk --no-cache add icu-dev && \
+    docker-php-ext-install intl
+
 # Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY . /var/www/html
+
+COPY entrypoint.sh /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+EXPOSE 9000
+
+CMD ["entrypoint.sh"]

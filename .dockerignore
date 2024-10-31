@@ -9,3 +9,10 @@ var/
 *.pyc
 *.pyo
 .DS_Store
+docker-compose.yaml
+Dockerfile.nginx
+Dockerfile.nphp
+README.md
+.gitignore
+composer.lock
+.env.test

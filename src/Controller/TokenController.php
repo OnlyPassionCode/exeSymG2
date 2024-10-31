@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\UserActivationToken;
 use App\Repository\UserActivationTokenRepository;
+use Doctrine\DBAL\Driver\Mysqli\Exception\HostRequired;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -93,7 +94,7 @@ class TokenController extends AbstractController
     }
 
     #[Route('/verify/send', name: 'app_send')]
-    public function send(): Response
+    public function send(Request $request): Response
     {
         // last username entered by the user
         $lastUsername = $this->authenticationUtils->getLastUsername();
@@ -133,7 +134,7 @@ class TokenController extends AbstractController
             $this->entityManager->flush();
         }
         
-        $this::sendEmailValidation($user, $this->entityManager, $this->mailer);
+        $this::sendEmailValidation($user, $this->entityManager, $this->mailer, $request->getSchemeAndHttpHost());
 
         return $this->render('token/index.html.twig', [
             'title' => 'Token',
@@ -142,7 +143,7 @@ class TokenController extends AbstractController
         ]);
     }
 
-    public static function sendEmailValidation(User $user, EntityManagerInterface $entityManager, MailerInterface $mailer){
+    public static function sendEmailValidation(User $user, EntityManagerInterface $entityManager, MailerInterface $mailer, string $host){
         // On crée le token
         $createAt = new \DateTimeImmutable();
         $expireAt = $createAt->modify('+60 minutes');
@@ -167,7 +168,7 @@ class TokenController extends AbstractController
             ->subject('Activation de votre compte')
             ->htmlTemplate('email/activation.html.twig') // Chemin vers le template
             ->context([
-                'url' => 'https://localhost:8000/verify/email?signature='.$signature.'&token='.$token, // Passer l'URL d'activation
+                'url' => "$host/verify/email?signature=".$signature.'&token='.$token, // Passer l'URL d'activation
             ]);
         // On envoie le mail
         // Attention, le worker "php bin/console messenger:consume async" doit être allumé
