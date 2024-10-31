@@ -1,70 +1,70 @@
-# exeSymG2
+# sym64kevin
 
-Créé à partir du dossier :
+## Bienvenue sur mon projet de TI Symfony 2024
 
-https://github.com/WebDevCF2m2023/CoucouSymfonyG2
+Vous trouverez les étapes a suivre pour installer et lancer le projet en local mais aussi sous Docker.
 
-## Préparation de l'environnement de développement
+## Lancer le projet en Local
 
-Certains fichiers de configuration ont été modifiés pour correspondre à l'environnement de développement original.
+Il est recommandé d'installer le CLI de symfony pour plus de simplicité : [cli symfony](https://symfony.com/download)
 
-Le `.env` a été modifié pour correspondre à la configuration de la base de données locale.
+```
+git clone https://github.com/OnlyPassionCode/sym64kevin
+cd sym64kevin
+```
+Avant de continuer, si le mot de passe de votre root est différent d'un mot de passe vide changer alors le fichier `.env.local` et mettez `DB_PWD` avec votre mot de passe root.
 
-### Installation des dépendances
+Une fois fait vous pouvez faire ces commandes :
 
-J'ai désinstallé `AssetMapper` pour que vous puissiez utiliser `Twig` plus simplement pour les assets.
+```
+composer install
+php bin/console d:d:c
+php bin/console d:m:m
+php bin/console d:f:l --no-interaction
+```
 
-Installation des dépendances :
+- Une fois ces étapes faîtes vous devez me demander la clé api de sendgrid.
+- Placez la clé dans le fichier .env
 
-    composer install
 
+Si vous souhaiter être en https faîtes cette commande :
 
-Ouvrez `Wamp` et lancez les services `Apache` et `MySQL`.
+```
+symfony server:ca:install
+```
 
-### Création de la base de données
+Une fois fait lancer le serveur :
 
-    php bin/console doctrine:database:create
+```
+symfony serve -d
+```
 
-### Fichiers disponibles
+Si vous avez la clé API pour les mails vous pouvez lancer cette commande :
 
-Les `Entity` récupérés depuis le projet sont stockées dans le dossier `src/Entity`:
+```
+php bin/console messenger:consume async
+```
 
-- `Comment.php`
-- `Post.php`
-- `Section.php`
-- `Tag.php`
-- `User.php`
+Cela lancera un worker qui tournera sur votre invite de commande pour envoyer les mails.
 
-Les `Repository` récupérés depuis le projet sont stockés dans le dossier `src/Repository`:
+## Lancer le projet sur Docker
+### Attention, n'oubliez pas d'éteindre wamp pour éviter un clonflit de port mysql.
+Nous repartons de 0. Faites ces commandes :
 
-- `CommentRepository.php`
-- `PostRepository.php`
-- `SectionRepository.php`
-- `TagRepository.php`
-- `UserRepository.php`
+```
+git clone https://github.com/OnlyPassionCode/sym64kevin
+cd sym64kevin
+```
 
-Seul le controller `src/Controller/SecurityController.php` a été récupéré depuis le projet.
+- Une fois ces étapes faîtes vous devez me demander la clé api de sendgrid.
+- Placez la clé dans le fichier .env
 
-### Création des tables
+Ensuite vous pouvez executer cette commande :
 
-    php bin/console make:migration
+```
+# Ajoutez -d a la fin pour lancer en tache de fond
+docker compose up --build
+```
 
-    php bin/console doctrine:migrations:migrate
+Et voilà, vous pouvez aller sur ce lien : http://localhost:8080
 
-## Votre objectif
-
-Trouvez un template et intégrez-le dans le projet en utilisant Twig.
-
-Vous pouvez utiliser le template de votre choix, mais il doit être responsive.
-
-Vous pouvez utiliser un template pour le front et un autre (ou le même) pour le back-office.
-
-Créez les contrôleurs nécessaires pour afficher les pages du template.
-
-Créez un back-office pour gérer les articles et les commentaires.
-
-Comme login et mot de passe, vous pouvez utiliser `admin` et `admin` dans la table `user`.
-
-La permission `ROLE_ADMIN` doit être ajoutée à l'utilisateur `admin`.
-
-Allez le plus loin possible en créant des `CRUD` pour les articles et les commentaires etc...
